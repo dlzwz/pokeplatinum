@@ -11213,30 +11213,9 @@ static int BattleScript_CalcCatchShakes(BattleSystem *battleSys, BattleContext *
     }
 
     int shakes;
-    if (catchRate >= 255) {
-        shakes = BALL_3_SHAKES_SUCCESS;
-    } else {
-        u32 sqrtRate = (0xFF << 16) / catchRate;
-        CP_SetSqrt32(sqrtRate);
-        CP_WaitSqrt();
 
-        sqrtRate = CP_GetSqrtResult32();
-        CP_SetSqrt32(sqrtRate);
-        CP_WaitSqrt();
-
-        catchRate = CP_GetSqrtResult32();
-        catchRate = (0xFFFF << 4) / catchRate;
-
-        for (shakes = 0; shakes < BALL_3_SHAKES_SUCCESS; shakes++) {
-            if (BattleSystem_RandNext(battleSys) >= catchRate) {
-                break;
-            }
-        }
-
-        if (battleCtx->msgItemTemp == ITEM_MASTER_BALL) {
-            shakes = BALL_3_SHAKES_SUCCESS;
-        }
-    }
+    // Force guaranteed capture on all balls
+    shakes = BALL_3_SHAKES_SUCCESS;
 
     return shakes;
 }
