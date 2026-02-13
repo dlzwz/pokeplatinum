@@ -160,6 +160,7 @@ pokeplatinum_c = files(
     'unk_02039A64.c',
     'map_matrix.c',
     'map_header_data.c',
+    'field_hm_cache.c',
     'field_overworld_state.c',
     'spawn_locations.c',
     'field_overworld_weather.c',

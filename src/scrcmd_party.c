@@ -13,6 +13,7 @@
 #include "overlay005/daycare.h"
 #include "savedata/save_table.h"
 
+#include "bag.h"
 #include "field_script_context.h"
 #include "field_system.h"
 #include "heap.h"
@@ -137,6 +138,15 @@ BOOL ScrCmd_CheckPartyMonHasMove(ScriptContext *ctx)
         *destVar = TRUE;
     }
 
+    if (*destVar == FALSE) {
+        u8 tmhmNumber = Item_TMHMNumberForMove(move);
+        if (tmhmNumber != 0xFF && tmhmNumber >= NUM_TMS
+            && Bag_GetItemQuantity(SaveData_GetBag(fieldSystem->saveData), FIRST_HM_IDX + (tmhmNumber - NUM_TMS), HEAP_ID_FIELD2) > 0
+            && Pokemon_CanLearnTM(mon, tmhmNumber)) {
+            *destVar = TRUE;
+        }
+    }
+
     return FALSE;
 }
 
@@ -147,6 +157,12 @@ BOOL ScrCmd_FindPartySlotWithMove(ScriptContext *ctx)
     u16 move = ScriptContext_GetVar(ctx);
 
     u8 partyCount = Party_GetCurrentCount(SaveData_GetParty(fieldSystem->saveData));
+    u8 tmhmNumber = Item_TMHMNumberForMove(move);
+    BOOL hasHMInBag = FALSE;
+
+    if (tmhmNumber != 0xFF && tmhmNumber >= NUM_TMS) {
+        hasHMInBag = Bag_GetItemQuantity(SaveData_GetBag(fieldSystem->saveData), FIRST_HM_IDX + (tmhmNumber - NUM_TMS), HEAP_ID_FIELD2) > 0;
+    }
 
     u8 slot;
     for (slot = 0, *destVar = MAX_PARTY_SIZE; slot < partyCount; slot++) {
@@ -160,6 +176,11 @@ BOOL ScrCmd_FindPartySlotWithMove(ScriptContext *ctx)
             || (Pokemon_GetValue(mon, MON_DATA_MOVE2, NULL) == move)
             || (Pokemon_GetValue(mon, MON_DATA_MOVE3, NULL) == move)
             || (Pokemon_GetValue(mon, MON_DATA_MOVE4, NULL) == move)) {
+            *destVar = slot;
+            break;
+        }
+
+        if (hasHMInBag && Pokemon_CanLearnTM(mon, tmhmNumber)) {
             *destVar = slot;
             break;
         }

@@ -3,6 +3,7 @@
 #include <nitro.h>
 #include <string.h>
 
+#include "field_hm_cache.h"
 #include "heap.h"
 #include "pokemon.h"
 #include "savedata.h"
@@ -56,6 +57,8 @@ BOOL Party_AddPokemon(Party *party, Pokemon *mon)
     party->pokemon[party->currentCount] = *mon;
     party->currentCount++;
 
+    FieldHMCache_Invalidate();
+
     return TRUE;
 }
 
@@ -72,6 +75,8 @@ BOOL Party_RemovePokemonBySlotIndex(Party *party, int slot)
 
     Pokemon_Init(&party->pokemon[i]);
     party->currentCount--;
+
+    FieldHMCache_Invalidate();
 
     return TRUE;
 }
@@ -100,6 +105,8 @@ void Party_AddPokemonBySlotIndex(Party *party, int slot, Pokemon *mon)
     int addOrRemoveSlots = Pokemon_GetValue(&(party->pokemon[slot]), MON_DATA_SPECIES_EXISTS, NULL) - Pokemon_GetValue(mon, MON_DATA_SPECIES_EXISTS, NULL);
     party->pokemon[slot] = *mon;
     party->currentCount += addOrRemoveSlots;
+
+    FieldHMCache_Invalidate();
 }
 
 BOOL Party_SwapSlots(Party *party, int slotA, int slotB)

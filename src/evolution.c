@@ -20,6 +20,7 @@
 
 #include "bag.h"
 #include "bg_window.h"
+#include "field_hm_cache.h"
 #include "g3d_pipeline.h"
 #include "game_options.h"
 #include "game_records.h"
@@ -435,6 +436,7 @@ static void Evolution_Main(EvolutionData *evolutionData)
     case EVOLUTION_STATE_SET_POKEMON_VALUES_AND_PRINT_CONGRATULATIONS:
         if (Sound_IsPokemonCryPlaying() == FALSE && PokemonAnimManager_HasAnimCompleted(evolutionData->monAnimMan, 0) == TRUE && PokemonSprite_IsAnimActive(evolutionData->monSprites[1]) == FALSE) {
             Pokemon_SetValue(evolutionData->mon, MON_DATA_SPECIES, (u8 *)&evolutionData->targetSpecies);
+            FieldHMCache_Invalidate();
             Pokemon_CalcAbility(evolutionData->mon);
             Pokemon_CalcLevelAndStats(evolutionData->mon);
             StringTemplate_SetNickname(evolutionData->strTemplate, 0, Pokemon_GetBoxPokemon(evolutionData->mon));

@@ -29,7 +29,9 @@
 #include "overlay009/ov9_02249960.h"
 #include "underground/manager.h"
 
+#include "bag.h"
 #include "catching_show.h"
+#include "field_hm_cache.h"
 #include "comm_player_manager.h"
 #include "communication_information.h"
 #include "communication_system.h"
@@ -208,11 +210,13 @@ BOOL FieldInput_Process(const FieldInput *input, FieldSystem *fieldSystem)
         int playerEvent = PLAYER_EVENT_NONE;
         enum FaceDirection direction = PlayerAvatar_CalcFaceDirection(fieldSystem->playerAvatar, input->pressedKeys, input->heldKeys);
 
+        FieldHMCache_Update(SaveData_GetParty(fieldSystem->saveData), SaveData_GetBag(fieldSystem->saveData));
+
         if (SystemFlag_HandleStrengthActive(SaveData_GetVarsFlags(fieldSystem->saveData), HANDLE_FLAG_CHECK)) {
             playerEvent |= PLAYER_EVENT_USED_STRENGTH;
         }
 
-        if (Party_HasMonWithMove(SaveData_GetParty(fieldSystem->saveData), MOVE_WATERFALL) != PARTY_SLOT_NONE) {
+        if (FieldHMCache_CanUse(MOVE_WATERFALL)) {
             playerEvent |= PLAYER_EVENT_USED_WATERFALL;
         }
 
@@ -689,7 +693,7 @@ u16 Field_TileBehaviorToScript(FieldSystem *fieldSystem, u8 behavior)
         u32 distortionBehavior = PlayerAvatar_GetDistortionCurrTileBehaviour(fieldSystem->playerAvatar);
 
         if (PlayerAvatar_CanUseSurf(fieldSystem->playerAvatar, distortionBehavior, behavior) && TrainerInfo_HasBadge(info, 3)) {
-            if (Party_HasMonWithMove(SaveData_GetParty(fieldSystem->saveData), MOVE_SURF) != PARTY_SLOT_NONE) {
+            if (FieldHMCache_CanUse(MOVE_SURF)) {
                 return SCRIPT_ID(FIELD_MOVES, 4);
             }
         }

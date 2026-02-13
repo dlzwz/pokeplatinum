@@ -267,6 +267,26 @@ u8 Item_IsHMMove(u16 move);
 u8 Item_TMHMNumber(u16 item);
 
 /**
+ * @brief Get the TM/HM number for a given move ID.
+ *
+ * @param move      The move ID to look up.
+ * @return The TM/HM number (index into the TM/HM table) if the move
+ *         corresponds to a TM or HM, or 0xFF if no match is found.
+ */
+u8 Item_TMHMNumberForMove(u16 move);
+
+/**
+ * @brief Get the 0-based HM index for a given HM move ID.
+ *
+ * Uses a switch statement for O(1) lookup. Only covers HM moves
+ * (CUT, FLY, SURF, STRENGTH, DEFOG, ROCK_SMASH, WATERFALL, ROCK_CLIMB).
+ *
+ * @param move  The move ID to look up.
+ * @return 0-7 for HM01-HM08 respectively, or 0xFF if the move is not an HM.
+ */
+u8 Item_HMIndexForMove(u16 move);
+
+/**
  * @brief Check if a given item is mail.
  *
  * @param item

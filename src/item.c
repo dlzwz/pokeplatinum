@@ -3326,6 +3326,32 @@ u8 Item_TMHMNumber(u16 item)
     return item - ITEM_TM01;
 }
 
+u8 Item_TMHMNumberForMove(u16 move)
+{
+    for (u8 i = 0; i < NUM_TMHMS; i++) {
+        if (sTMHMMoves[i] == move) {
+            return i;
+        }
+    }
+
+    return 0xFF;
+}
+
+u8 Item_HMIndexForMove(u16 move)
+{
+    switch (move) {
+    case MOVE_CUT:        return 0;
+    case MOVE_FLY:        return 1;
+    case MOVE_SURF:       return 2;
+    case MOVE_STRENGTH:   return 3;
+    case MOVE_DEFOG:      return 4;
+    case MOVE_ROCK_SMASH: return 5;
+    case MOVE_WATERFALL:  return 6;
+    case MOVE_ROCK_CLIMB: return 7;
+    default:              return 0xFF;
+    }
+}
+
 u8 Item_IsMail(u16 item)
 {
     for (u32 i = 0; i < NUM_MAILS; i++) {
