@@ -8,6 +8,7 @@
 #include "constants/moves.h"
 #include "constants/pokemon.h"
 #include "constants/string.h"
+#include "generated/badges.h"
 #include "generated/items.h"
 #include "generated/moves.h"
 #include "generated/pokemon_contest_types.h"
@@ -25,6 +26,8 @@
 
 #include "bag.h"
 #include "battle_regulation.h"
+#include "save_player.h"
+#include "trainer_info.h"
 #include "battle_regulation_validation.h"
 #include "bg_window.h"
 #include "font.h"
@@ -1792,19 +1795,52 @@ static void sub_0207FFC8(PartyMenuApplication *application)
 static u8 GetContextMenuEntriesForPartyMon(PartyMenuApplication *application, u8 *menuEntriesBuffer)
 {
     Pokemon *mon = Party_GetPokemonBySlotIndex(application->partyMenu->party, application->currPartySlot);
+    TrainerInfo *trainerInfo = SaveData_GetTrainerInfo(application->partyMenu->fieldSystem->saveData);
     u16 move;
     u8 fieldMoveIndex = 0, i, count = 0, fieldEffect;
+    u8 tmhmNumber;
 
     menuEntriesBuffer[count] = 1;
     count++;
 
     if (FieldSystem_IsInBattleTowerSalon(application->partyMenu->fieldSystem) == FALSE) {
         if (application->partyMembers[application->currPartySlot].isEgg == FALSE) {
+            // FLY: show if player has Cobble Badge + HM02 and Pokemon can learn it
+            if (TrainerInfo_HasBadge(trainerInfo, BADGE_ID_COBBLE)
+                && Bag_GetItemQuantity(application->partyMenu->bag, ITEM_HM02, HEAP_ID_PARTY_MENU) > 0) {
+                tmhmNumber = Item_TMHMNumberForMove(MOVE_FLY);
+                if (tmhmNumber != 0xFF && Pokemon_CanLearnTM(mon, tmhmNumber)) {
+                    menuEntriesBuffer[count] = GetElementIndex(MOVE_FLY);
+                    count++;
+                    PartyMenu_SetKnownFieldMove(application, MOVE_FLY, fieldMoveIndex);
+                    fieldMoveIndex++;
+                }
+            }
+
+            // DEFOG: show if player has Relic Badge + HM05 and Pokemon can learn it
+            if (TrainerInfo_HasBadge(trainerInfo, BADGE_ID_RELIC)
+                && Bag_GetItemQuantity(application->partyMenu->bag, ITEM_HM05, HEAP_ID_PARTY_MENU) > 0) {
+                tmhmNumber = Item_TMHMNumberForMove(MOVE_DEFOG);
+                if (tmhmNumber != 0xFF && Pokemon_CanLearnTM(mon, tmhmNumber)) {
+                    menuEntriesBuffer[count] = GetElementIndex(MOVE_DEFOG);
+                    count++;
+                    PartyMenu_SetKnownFieldMove(application, MOVE_DEFOG, fieldMoveIndex);
+                    fieldMoveIndex++;
+                }
+            }
+
+            // Other field moves from actual move slots (excluding overworld HMs and FLY/DEFOG)
             for (i = 0; i < 4; i++) {
                 move = (u16)Pokemon_GetValue(mon, MON_DATA_MOVE1 + i, NULL);
 
                 if (move == 0) {
                     break;
+                }
+
+                if (move == MOVE_CUT || move == MOVE_SURF || move == MOVE_STRENGTH
+                    || move == MOVE_ROCK_SMASH || move == MOVE_WATERFALL || move == MOVE_ROCK_CLIMB
+                    || move == MOVE_FLY || move == MOVE_DEFOG) {
+                    continue;
                 }
 
                 fieldEffect = GetElementIndex(move);

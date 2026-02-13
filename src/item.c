@@ -3326,6 +3326,17 @@ u8 Item_TMHMNumber(u16 item)
     return item - ITEM_TM01;
 }
 
+u8 Item_TMHMNumberForMove(u16 move)
+{
+    for (u8 i = 0; i < NUM_TMHMS; i++) {
+        if (sTMHMMoves[i] == move) {
+            return i;
+        }
+    }
+
+    return 0xFF;
+}
+
 u8 Item_IsMail(u16 item)
 {
     for (u32 i = 0; i < NUM_MAILS; i++) {

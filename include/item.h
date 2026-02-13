@@ -267,6 +267,15 @@ u8 Item_IsHMMove(u16 move);
 u8 Item_TMHMNumber(u16 item);
 
 /**
+ * @brief Get the TM/HM number for a given move ID.
+ *
+ * @param move      The move ID to look up.
+ * @return The TM/HM number (index into the TM/HM table) if the move
+ *         corresponds to a TM or HM, or 0xFF if no match is found.
+ */
+u8 Item_TMHMNumberForMove(u16 move);
+
+/**
  * @brief Check if a given item is mail.
  *
  * @param item

@@ -10,7 +10,9 @@
 
 #include "overlay005/daycare.h"
 
+#include "bag.h"
 #include "heap.h"
+#include "item.h"
 #include "party.h"
 #include "pokemon.h"
 #include "save_player.h"
@@ -83,10 +85,16 @@ void Party_ResetMonMoveSlot(Party *party, int partySlot, int moveSlot, u16 moveI
 
 // In many of the functions below, C99-style iterator declaration doesn't match
 
-int Party_HasMonWithMove(Party *party, u16 moveID)
+int Party_HasMonWithMove(Party *party, u16 moveID, Bag *bag)
 {
     int i;
     int partyCount = Party_GetCurrentCount(party);
+    u8 tmhmNumber = Item_TMHMNumberForMove(moveID);
+    BOOL hasHMInBag = FALSE;
+
+    if (tmhmNumber != 0xFF && tmhmNumber >= NUM_TMS && bag != NULL) {
+        hasHMInBag = Bag_GetItemQuantity(bag, FIRST_HM_IDX + (tmhmNumber - NUM_TMS), HEAP_ID_FIELD1) > 0;
+    }
 
     for (i = 0; i < partyCount; i++) {
         Pokemon *mon = Party_GetPokemonBySlotIndex(party, i);
@@ -99,6 +107,10 @@ int Party_HasMonWithMove(Party *party, u16 moveID)
             || Pokemon_GetValue(mon, MON_DATA_MOVE2, NULL) == moveID
             || Pokemon_GetValue(mon, MON_DATA_MOVE3, NULL) == moveID
             || Pokemon_GetValue(mon, MON_DATA_MOVE4, NULL) == moveID) {
+            return i;
+        }
+
+        if (hasHMInBag && Pokemon_CanLearnTM(mon, tmhmNumber)) {
             return i;
         }
     }
