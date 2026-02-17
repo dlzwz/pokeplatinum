@@ -2512,6 +2512,13 @@ enum GetExpTaskState {
     SEQ_GET_EXP_LEARNED_MOVE_WAIT,
 
     SEQ_GET_EXP_CHECK_DONE,
+
+    // After all participants are processed, show the single "rest of team gained exp"
+    // message, then start pass 1 for non-participants.
+    SEQ_GET_EXP_SHOW_SHARED_MSG,
+    SEQ_GET_EXP_WAIT_SHARED_MSG_PRINT,
+    SEQ_GET_EXP_WAIT_SHARED_MSG_DELAY,
+
     SEQ_GET_EXP_DONE,
 };
 
@@ -2522,7 +2529,8 @@ enum GetExpTaskDataIndex {
     GET_EXP_NEW_EXP,
     GET_EXP_MOVE,
     GET_EXP_MOVE_SLOT,
-    GET_EXP_PARTY_SLOT
+    GET_EXP_PARTY_SLOT,
+    GET_EXP_PASS  // 0 = pass 0 (participants only), 1 = pass 1 (non-participants only)
 };
 
 /**
@@ -2546,6 +2554,7 @@ static BOOL BtlCmd_StartGetExpTask(BattleSystem *battleSys, BattleContext *battl
     battleCtx->taskData->battleCtx = battleCtx;
     battleCtx->taskData->seqNum = SEQ_GET_EXP_START;
     battleCtx->taskData->tmpData[GET_EXP_PARTY_SLOT] = 0;
+    battleCtx->taskData->tmpData[GET_EXP_PASS] = 0;
 
     SysTask_Start(BattleScript_GetExpTask, battleCtx->taskData, NULL);
 
@@ -9925,7 +9934,8 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
     battler = data->battleCtx->faintedMon >> 1 & 1; // init to the side with the fainted mon
     expBattler = 0;
 
-    // Figure out which mon we're working on
+    // Figure out which mon we're working on.
+    // Pass 0 processes participants only; pass 1 processes non-participants only.
     for (slot = data->tmpData[GET_EXP_PARTY_SLOT]; slot < BattleSystem_GetPartyCount(data->battleSys, expBattler); slot++) {
         mon = BattleSystem_GetPartyPokemon(data->battleSys, expBattler, slot);
         item = Pokemon_GetValue(mon, MON_DATA_HELD_ITEM, NULL);
@@ -9934,12 +9944,22 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         if (Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL)
             && Pokemon_GetValue(mon, MON_DATA_HP, NULL)
             && !Pokemon_GetValue(mon, MON_DATA_IS_EGG, NULL)) {
+            BOOL slotIsParticipant = (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) != 0;
+            if (data->tmpData[GET_EXP_PASS] == 0 && !slotIsParticipant) continue; // pass 0: skip non-participants
+            if (data->tmpData[GET_EXP_PASS] == 1 && slotIsParticipant) continue;  // pass 1: skip participants
             break;
         }
     }
 
     if (slot == BattleSystem_GetPartyCount(data->battleSys, expBattler)) {
-        data->seqNum = SEQ_GET_EXP_DONE;
+        if (data->tmpData[GET_EXP_PASS] == 0) {
+            // All participants processed. Transition: show shared message, then run pass 1.
+            data->tmpData[GET_EXP_PASS] = 1;
+            data->tmpData[GET_EXP_PARTY_SLOT] = 0;
+            data->seqNum = SEQ_GET_EXP_SHOW_SHARED_MSG;
+        } else {
+            data->seqNum = SEQ_GET_EXP_DONE;
+        }
     } else if ((battleType & BATTLE_TYPE_DOUBLES)
         && (battleType & BATTLE_TYPE_AI) == FALSE
         && data->battleCtx->selectedPartySlot[2] == slot) {
@@ -9962,10 +9982,11 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         }
 
         u32 totalExp = 0;
+        BOOL isParticipant = (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) != 0;
         msg.id = BattleStrings_Text_PokemonGainedExpPoints; // "{0} gained {1} Exp. Points!"
 
         if (Pokemon_GetValue(mon, MON_DATA_HP, NULL) && Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) != MAX_POKEMON_LEVEL) {
-            if (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) {
+            if (isParticipant) {
                 totalExp = data->battleCtx->gainedExp;
             } else {
                 totalExp = data->battleCtx->sharedExp;
@@ -10010,20 +10031,15 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
 
         if (totalExp) {
             if (isParticipant) {
+                // Pass 0: show individual exp message for this participant.
                 msg.tags = TAG_NICKNAME_NUM;
                 msg.params[0] = expBattler | (slot << 8);
                 msg.params[1] = totalExp;
                 data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_GetTextSpeed(data->battleSys));
                 data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
                 data->seqNum++;
-            } else if (!data->tmpData[GET_EXP_SHARED_EXP_FLAG]) {
-                data->tmpData[GET_EXP_SHARED_EXP_FLAG] = 1;
-                msg.id = BattleStrings_Text_RestOfTeamGainedExp;
-                msg.tags = TAG_NONE;
-                data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_GetTextSpeed(data->battleSys));
-                data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
-                data->seqNum++;
             } else {
+                // Pass 1: non-participant receives shared EXP silently (no message).
                 data->seqNum = SEQ_GET_EXP_GAUGE;
             }
         } else {
@@ -10428,9 +10444,49 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         break;
 
     case SEQ_GET_EXP_CHECK_DONE:
-        data->battleCtx->sideGetExpMask[battler] &= (FlagIndex(slot) ^ 0xFFFFFFFF); // this mon is done
+        // Do not clear sideGetExpMask bits here; pass 1 needs them to skip participants.
         data->tmpData[GET_EXP_PARTY_SLOT] = slot + 1;
         data->seqNum = SEQ_GET_EXP_START; // go back to the top and get the next mon
+        break;
+
+    case SEQ_GET_EXP_SHOW_SHARED_MSG: {
+        // Show the single "rest of team gained Exp." message if any non-participant
+        // is alive and below the level cap (i.e., they actually receive shared EXP).
+        BOOL hasNonParticipant = FALSE;
+        for (i = 0; i < BattleSystem_PartyCount(data->battleSys, expBattler); i++) {
+            Pokemon *partyMon = BattleSystem_PartyPokemon(data->battleSys, expBattler, i);
+            if (Pokemon_GetValue(partyMon, MON_DATA_SPECIES, NULL)
+                && Pokemon_GetValue(partyMon, MON_DATA_HP, NULL)
+                && !Pokemon_GetValue(partyMon, MON_DATA_IS_EGG, NULL)
+                && Pokemon_GetValue(partyMon, MON_DATA_LEVEL, NULL) < Pokemon_GetLevelCap()
+                && !(data->battleCtx->sideGetExpMask[battler] & FlagIndex(i))) {
+                hasNonParticipant = TRUE;
+                break;
+            }
+        }
+        if (hasNonParticipant) {
+            msg.id = BattleStrings_Text_RestOfTeamGainedExp;
+            msg.tags = TAG_NONE;
+            data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_TextSpeed(data->battleSys));
+            data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
+            data->seqNum = SEQ_GET_EXP_WAIT_SHARED_MSG_PRINT;
+        } else {
+            data->seqNum = SEQ_GET_EXP_DONE;
+        }
+        break;
+    }
+
+    case SEQ_GET_EXP_WAIT_SHARED_MSG_PRINT:
+        if (Text_IsPrinterActive(data->tmpData[GET_EXP_MSG_INDEX]) == FALSE) {
+            data->seqNum++;
+        }
+        break;
+
+    case SEQ_GET_EXP_WAIT_SHARED_MSG_DELAY:
+        if (--data->tmpData[GET_EXP_MSG_DELAY] == 0) {
+            data->tmpData[GET_EXP_PARTY_SLOT] = 0;
+            data->seqNum = SEQ_GET_EXP_START;
+        }
         break;
 
     case SEQ_GET_EXP_DONE:
