@@ -2441,26 +2441,27 @@ static BOOL BtlCmd_CalcExpGain(BattleSystem *battleSys, BattleContext *battleCtx
         u16 exp = SpeciesData_GetSpeciesValue(battleCtx->battleMons[battleCtx->faintedMon].species, SPECIES_DATA_BASE_EXP_REWARD);
         exp = (exp * battleCtx->battleMons[battleCtx->faintedMon].level) / 7;
 
-        if (totalMonsWithExpShare) {
-            battleCtx->gainedExp = (exp / 2) / totalMonsGainingExp;
+        // Full EXP for participants
+        battleCtx->gainedExp = exp / totalMonsGainingExp;
 
-            if (battleCtx->gainedExp == 0) {
-                battleCtx->gainedExp = 1;
+        if (battleCtx->gainedExp == 0) {
+            battleCtx->gainedExp = 1;
+        }
+
+        // Shared EXP for non-participants (modern EXP Share behavior)
+        int totalPartyAlive = 0;
+        for (i = 0; i < Party_GetCurrentCount(BattleSystem_Party(battleSys, BATTLER_US)); i++) {
+            Pokemon *partyMon = BattleSystem_PartyPokemon(battleSys, BATTLER_US, i);
+            if (Pokemon_GetValue(partyMon, MON_DATA_SPECIES, NULL)
+                && Pokemon_GetValue(partyMon, MON_DATA_HP, NULL)) {
+                totalPartyAlive++;
             }
+        }
 
-            battleCtx->sharedExp = (exp / 2) / totalMonsWithExpShare;
+        battleCtx->sharedExp = exp / 2;
 
-            if (battleCtx->sharedExp == 0) {
-                battleCtx->sharedExp = 1;
-            }
-        } else {
-            battleCtx->gainedExp = exp / totalMonsGainingExp;
-
-            if (battleCtx->gainedExp == 0) {
-                battleCtx->gainedExp = 1;
-            }
-
-            battleCtx->sharedExp = 0;
+        if (battleCtx->sharedExp == 0) {
+            battleCtx->sharedExp = 1;
         }
     } else {
         BattleScript_Iter(battleCtx, jump);
@@ -9931,7 +9932,8 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         item = Pokemon_GetValue(mon, MON_DATA_HELD_ITEM, NULL);
         itemEffect = Item_LoadParam(item, ITEM_PARAM_HOLD_EFFECT, HEAP_ID_BATTLE);
 
-        if (itemEffect == HOLD_EFFECT_EXP_SHARE || (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot))) {
+        if (Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL)
+            && Pokemon_GetValue(mon, MON_DATA_HP, NULL)) {
             break;
         }
     }
@@ -9965,6 +9967,8 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         if (Pokemon_GetValue(mon, MON_DATA_HP, NULL) && Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) != MAX_POKEMON_LEVEL) {
             if (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) {
                 totalExp = data->battleCtx->gainedExp;
+            } else {
+                totalExp = data->battleCtx->sharedExp;
             }
 
             if (itemEffect == HOLD_EFFECT_EXP_SHARE) {
