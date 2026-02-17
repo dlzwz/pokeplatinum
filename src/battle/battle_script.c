@@ -2523,7 +2523,8 @@ enum GetExpTaskDataIndex {
     GET_EXP_NEW_EXP,
     GET_EXP_MOVE,
     GET_EXP_MOVE_SLOT,
-    GET_EXP_PARTY_SLOT
+    GET_EXP_PARTY_SLOT,
+    GET_EXP_SHARED_EXP_FLAG
 };
 
 /**
@@ -2547,6 +2548,7 @@ static BOOL BtlCmd_StartGetExpTask(BattleSystem *battleSys, BattleContext *battl
     battleCtx->taskData->battleCtx = battleCtx;
     battleCtx->taskData->seqNum = SEQ_GET_EXP_START;
     battleCtx->taskData->tmpData[GET_EXP_PARTY_SLOT] = 0;
+    battleCtx->taskData->tmpData[GET_EXP_SHARED_EXP_FLAG] = 0;
 
     SysTask_Start(BattleScript_GetExpTask, battleCtx->taskData, NULL);
 
@@ -9962,10 +9964,11 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         }
 
         u32 totalExp = 0;
+        BOOL isParticipant = (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) != 0;
         msg.id = BattleStrings_Text_PokemonGainedExpPoints; // "{0} gained {1} Exp. Points!"
 
         if (Pokemon_GetValue(mon, MON_DATA_HP, NULL) && Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) != MAX_POKEMON_LEVEL) {
-            if (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) {
+            if (isParticipant) {
                 totalExp = data->battleCtx->gainedExp;
             } else {
                 totalExp = data->battleCtx->sharedExp;
@@ -10009,12 +10012,24 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         }
 
         if (totalExp) {
-            msg.tags = TAG_NICKNAME_NUM;
-            msg.params[0] = expBattler | (slot << 8);
-            msg.params[1] = totalExp;
-            data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_TextSpeed(data->battleSys));
-            data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
-            data->seqNum++;
+            if (isParticipant) {
+                msg.tags = TAG_NICKNAME_NUM;
+                msg.params[0] = expBattler | (slot << 8);
+                msg.params[1] = totalExp;
+                data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_TextSpeed(data->battleSys));
+                data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
+                data->seqNum++;
+            } else if (!data->tmpData[GET_EXP_SHARED_EXP_FLAG]) {
+                data->tmpData[GET_EXP_SHARED_EXP_FLAG] = 1;
+                msg.id = BattleStrings_Text_RestOfTeamGainedExp;
+                msg.tags = TAG_NUMBER;
+                msg.params[0] = data->battleCtx->sharedExp;
+                data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_TextSpeed(data->battleSys));
+                data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
+                data->seqNum++;
+            } else {
+                data->seqNum = SEQ_GET_EXP_GAUGE;
+            }
         } else {
             data->seqNum = SEQ_GET_EXP_CHECK_DONE;
         }
