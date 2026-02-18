@@ -13,6 +13,7 @@
 #include "constants/pokemon.h"
 #include "constants/sound.h"
 #include "generated/abilities.h"
+#include "generated/badges.h"
 #include "generated/evolution_methods.h"
 #include "generated/exp_rates.h"
 #include "generated/gender_ratios.h"
@@ -51,6 +52,8 @@
 #include "sprite.h"
 #include "sprite_system.h"
 #include "string_gf.h"
+#include "save_player.h"
+#include "savedata.h"
 #include "trainer_data.h"
 #include "trainer_info.h"
 #include "unk_02017038.h"
@@ -1842,13 +1845,15 @@ static void BoxPokemon_IncreaseDataInternal(BoxPokemon *boxMon, enum PokemonData
     PokemonDataBlockD *monDataBlockD = BoxPokemon_GetDataBlock(boxMon, boxMon->personality, DATA_BLOCK_D);
 
     switch (param) {
-    case MON_DATA_EXPERIENCE:
-        if (monDataBlockA->exp + value > Pokemon_GetSpeciesBaseExpAt(monDataBlockA->species, MAX_POKEMON_LEVEL)) {
-            monDataBlockA->exp = Pokemon_GetSpeciesBaseExpAt(monDataBlockA->species, MAX_POKEMON_LEVEL);
+    case MON_DATA_EXPERIENCE: {
+        u32 capExp = Pokemon_GetSpeciesBaseExpAt(monDataBlockA->species, Pokemon_GetLevelCap());
+        if (monDataBlockA->exp + value > capExp) {
+            monDataBlockA->exp = capExp;
         } else {
             monDataBlockA->exp += value;
         }
         break;
+    }
     case MON_DATA_FRIENDSHIP:
         int newValue;
 
@@ -3493,20 +3498,40 @@ BoxPokemon *Pokemon_GetBoxPokemon(Pokemon *mon)
     return &mon->box;
 }
 
+u8 Pokemon_GetLevelCap(void)
+{
+    static const u8 sLevelCaps[] = { 11, 19, 22, 27, 31, 35, 37, 43, 54 };
+
+    TrainerInfo *trainerInfo = SaveData_GetTrainerInfo(SaveData_Ptr());
+
+    if (TrainerInfo_IsMainStoryCleared(trainerInfo)) {
+        return MAX_POKEMON_LEVEL;
+    }
+
+    int badges = TrainerInfo_BadgeCount(trainerInfo);
+
+    if (badges >= MAX_BADGES) {
+        return sLevelCaps[MAX_BADGES];
+    }
+
+    return sLevelCaps[badges];
+}
+
 BOOL Pokemon_ShouldLevelUp(Pokemon *mon)
 {
     u16 monSpecies = Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL);
     u8 monNextLevel = Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) + 1;
     u32 monExp = Pokemon_GetValue(mon, MON_DATA_EXPERIENCE, NULL);
     int monExpRate = SpeciesData_GetSpeciesValue(monSpecies, SPECIES_DATA_EXP_RATE);
-    u32 maxExp = Pokemon_GetExpRateBaseExpAt(monExpRate, MAX_POKEMON_LEVEL);
+    u8 levelCap = Pokemon_GetLevelCap();
+    u32 maxExp = Pokemon_GetExpRateBaseExpAt(monExpRate, levelCap);
 
     if (monExp > maxExp) {
         monExp = maxExp;
         Pokemon_SetValue(mon, MON_DATA_EXPERIENCE, &monExp);
     }
 
-    if (monNextLevel > MAX_POKEMON_LEVEL) {
+    if (monNextLevel > levelCap) {
         return FALSE;
     }
 
