@@ -3842,23 +3842,19 @@ static int BattleSystem_Cursor_Menu(UnkStruct_ov16_02268A14 *param0, BOOL cursor
     default: // normal fight menu, with bag, run and pokemon
         buttonId = sBattleMenuButtonLayout[cursor->y][cursor->x];
 
-        if ((buttonId == 3) && (gSystem.pressedKeys & PAD_KEY_UP)) {
-            (void)0; // Do nothing if run is selected and up is pressed
-        } else {
-            button = BattleSystem_MoveCursor(cursor, 3, 2, sBattleMenuButtonLayout[0]); // temporarily set button to the id of the new button
+        button = BattleSystem_MoveCursor(cursor, 3, 2, sBattleMenuButtonLayout[0]); // temporarily set button to the id of the new button
 
-            if ((button == 0) && (buttonId == 0)) { // if fight is selected, and is still selected
-                if (gSystem.pressedKeys & PAD_KEY_LEFT) { // Move to bag on the bottom row
-                    cursor->x = 0;
-                    cursor->y = 1;
-                    Sound_PlayEffect(SEQ_SE_CONFIRM);
-                    button = PAD_KEY_LEFT;
-                } else if (gSystem.pressedKeys & PAD_KEY_RIGHT) { // Move to pokemon on the bottom row
-                    cursor->x = 2;
-                    cursor->y = 1;
-                    Sound_PlayEffect(SEQ_SE_CONFIRM);
-                    button = PAD_KEY_RIGHT;
-                }
+        if ((button == 0) && (buttonId == 0)) { // if fight is selected, and is still selected
+            if (gSystem.pressedKeys & PAD_KEY_LEFT) { // Move to bag on the bottom row
+                cursor->x = 0;
+                cursor->y = 1;
+                Sound_PlayEffect(SEQ_SE_CONFIRM);
+                button = PAD_KEY_LEFT;
+            } else if (gSystem.pressedKeys & PAD_KEY_RIGHT) { // Move to pokemon on the bottom row
+                cursor->x = 2;
+                cursor->y = 1;
+                Sound_PlayEffect(SEQ_SE_CONFIRM);
+                button = PAD_KEY_RIGHT;
             }
         }
         break;
@@ -3901,7 +3897,7 @@ static void ov16_0226C0A0(UnkStruct_ov16_02268A14 *param0, int param1)
         for (i = 0; i < 2; i++) {
             for (j = 0; j < 3; j++) {
                 if (param1 == sBattleMenuButtonLayout[i][j]) {
-                    v0->unk_00 = j;
+                    v0->unk_00 = (param1 == 0) ? 1 : j;
                     v0->unk_01 = i;
 
                     return;

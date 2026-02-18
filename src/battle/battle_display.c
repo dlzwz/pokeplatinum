@@ -5585,6 +5585,7 @@ UnkStruct_ov16_0226C378 *ov16_02263B0C(BattlerData *battlerData)
 void ov16_02263B10(BattlerData *battlerData)
 {
     MI_CpuClear8(&battlerData->unk_7B, sizeof(UnkStruct_ov16_0226C378));
+    battlerData->unk_7B.unk_00 = 1; // Default battle menu cursor to center column (RUN)
 }
 
 void ov16_02263B20(BattlerData *battlerData, int param1)
