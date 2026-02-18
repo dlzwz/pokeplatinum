@@ -15,6 +15,18 @@ OreburghGym_Roark:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 47, 0, 0, 0
     Message OreburghGym_Text_RoarkIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, OreburghGym_RoarkStartBattle
+    Message OreburghGym_Text_RoarkTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message OreburghGym_Text_RoarkTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+OreburghGym_RoarkStartBattle:
     StartTrainerBattle TRAINER_LEADER_ROARK
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, OreburghGym_LostBattle

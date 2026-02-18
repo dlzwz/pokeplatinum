@@ -23,6 +23,18 @@ VeilstoneGym_Maylene:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 133, 0, 0, 0
     Message VeilstoneGym_Text_MayleneIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, VeilstoneGym_MayleneStartBattle
+    Message VeilstoneGym_Text_MayleneTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message VeilstoneGym_Text_MayleneTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+VeilstoneGym_MayleneStartBattle:
     StartTrainerBattle TRAINER_LEADER_MAYLENE
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, VeilstoneGym_LostBattle

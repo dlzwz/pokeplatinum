@@ -109,6 +109,17 @@
         "{STRVAR_1 3, 0, 0}\f",
         "{STRVAR_1 3, 1, 0}"
       ]
+    },
+    {
+      "id": "SnowpointGym_Text_CandiceTooManyInterim",
+      "en_US": "Wait!"
+    },
+    {
+      "id": "SnowpointGym_Text_CandiceTooManyPokemon",
+      "en_US": [
+        "I like focus, so bring 4 Pokémon.\n",
+        "Then we’ll battle."
+      ]
     }
   ]
 }

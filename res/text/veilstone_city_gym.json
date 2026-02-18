@@ -130,6 +130,17 @@
     {
       "id": "VeilstoneGym_Text_OneDayAtATime",
       "en_US": "One day at a time."
+    },
+    {
+      "id": "VeilstoneGym_Text_MayleneTooManyInterim",
+      "en_US": "Um..."
+    },
+    {
+      "id": "VeilstoneGym_Text_MayleneTooManyPokemon",
+      "en_US": [
+        "I take battling very seriously.\n",
+        "Please bring only 3 Pokémon."
+      ]
     }
   ]
 }

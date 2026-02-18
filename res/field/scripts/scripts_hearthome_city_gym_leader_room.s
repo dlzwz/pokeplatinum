@@ -58,6 +58,18 @@ HearthomeGym_FantinaMain:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 91, 0, 0, 0
     Message HearthomeGym_Text_FantinaIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, HearthomeGym_FantinaStartBattle
+    Message HearthomeGym_Text_FantinaTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message HearthomeGym_Text_FantinaTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+HearthomeGym_FantinaStartBattle:
     SetFlag FLAG_MAP_LOCAL
     StartTrainerBattle TRAINER_LEADER_FANTINA
     ClearFlag FLAG_MAP_LOCAL
