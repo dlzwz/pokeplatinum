@@ -29,6 +29,18 @@ SunyshoreGymRoom3_Volkner:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 156, 0, 0, 0
     Message SunyshoreGymRoom3_Text_VolknerIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 4, SunyshoreGymRoom3_VolknerStartBattle
+    Message SunyshoreGymRoom3_Text_VolknerTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message SunyshoreGymRoom3_Text_VolknerTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+SunyshoreGymRoom3_VolknerStartBattle:
     StartTrainerBattle TRAINER_LEADER_VOLKNER
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, SunyshoreGymRoom3_LostBattle

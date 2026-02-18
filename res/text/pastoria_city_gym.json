@@ -109,6 +109,18 @@
         "{STRVAR_1 3, 0, 0}\f",
         "{STRVAR_1 3, 1, 0}"
       ]
+    },
+    {
+      "id": "PastoriaGym_Text_WakeTooManyInterim",
+      "en_US": "Whoa!"
+    },
+    {
+      "id": "PastoriaGym_Text_WakeTooManyPokemon",
+      "en_US": [
+        "Too many on your team!\n",
+        "Bring 3 Pokémon!\r",
+        "Come on, let’s get it done!"
+      ]
     }
   ]
 }

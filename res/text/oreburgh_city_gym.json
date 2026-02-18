@@ -122,6 +122,17 @@
         "{STRVAR_1 3, 0, 0}\f",
         "{STRVAR_1 3, 1, 0}"
       ]
+    },
+    {
+      "id": "OreburghGym_Text_RoarkTooManyInterim",
+      "en_US": "Hmm..."
+    },
+    {
+      "id": "OreburghGym_Text_RoarkTooManyPokemon",
+      "en_US": [
+        "I need to see your potential.\n",
+        "Choose 3 Pokémon and come back."
+      ]
     }
   ]
 }

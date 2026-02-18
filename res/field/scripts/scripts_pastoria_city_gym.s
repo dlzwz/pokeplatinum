@@ -47,6 +47,18 @@ PastoriaGym_Wake:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 122, 0, 0, 0
     Message PastoriaGym_Text_WakeIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, PastoriaGym_WakeStartBattle
+    Message PastoriaGym_Text_WakeTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message PastoriaGym_Text_WakeTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+PastoriaGym_WakeStartBattle:
     StartTrainerBattle TRAINER_LEADER_WAKE
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, PastoriaGym_LostBattle

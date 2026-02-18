@@ -173,6 +173,18 @@
         "{STRVAR_1 3, 0, 0}\f",
         "{STRVAR_1 3, 1, 0}"
       ]
+    },
+    {
+      "id": "EternaGym_Text_GardeniaTooManyInterim",
+      "en_US": "Hold it!"
+    },
+    {
+      "id": "EternaGym_Text_GardeniaTooManyPokemon",
+      "en_US": [
+        "You’ve got a winning aura, but\n",
+        "bring 3 Pokémon.\r",
+        "Let’s keep this fun and fair."
+      ]
     }
   ]
 }

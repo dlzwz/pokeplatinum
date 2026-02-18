@@ -79,6 +79,18 @@
     {
       "id": "pl_msg_00000109_00008",
       "garbage": 15
+    },
+    {
+      "id": "HearthomeGym_Text_FantinaTooManyInterim",
+      "en_US": "Ohoho..."
+    },
+    {
+      "id": "HearthomeGym_Text_FantinaTooManyPokemon",
+      "en_US": [
+        "Non, non! Too many Pokémon.\n",
+        "Choose 3, and then you\f",
+        "challenge me."
+      ]
     }
   ]
 }

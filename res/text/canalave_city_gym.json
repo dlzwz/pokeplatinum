@@ -112,6 +112,18 @@
         "{STRVAR_1 3, 0, 0}\f",
         "{STRVAR_1 3, 1, 0}"
       ]
+    },
+    {
+      "id": "CanalaveGym_Text_ByronTooManyInterim",
+      "en_US": "Hm!"
+    },
+    {
+      "id": "CanalaveGym_Text_ByronTooManyPokemon",
+      "en_US": [
+        "I will take your challenge, but not\n",
+        "like this.\r",
+        "Choose 3 Pokémon and return."
+      ]
     }
   ]
 }

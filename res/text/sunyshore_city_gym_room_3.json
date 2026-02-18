@@ -76,6 +76,18 @@
         "Against you, even the Elite Four will\n",
         "be pushed to fend off your challenge!"
       ]
+    },
+    {
+      "id": "SunyshoreGymRoom3_Text_VolknerTooManyInterim",
+      "en_US": "..."
+    },
+    {
+      "id": "SunyshoreGymRoom3_Text_VolknerTooManyPokemon",
+      "en_US": [
+        "...Too many Pokémon.\n",
+        "Bring 4.\r",
+        "I want a battle that isn’t boring."
+      ]
     }
   ]
 }

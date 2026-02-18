@@ -20,6 +20,18 @@ CanalaveGym_Byron:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 35, 0, 0, 0
     Message CanalaveGym_Text_ByronIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, CanalaveGym_ByronStartBattle
+    Message CanalaveGym_Text_ByronTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message CanalaveGym_Text_ByronTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+CanalaveGym_ByronStartBattle:
     StartTrainerBattle TRAINER_LEADER_BYRON
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, CanalaveGym_Lostbattle

@@ -24,6 +24,18 @@ SnowpointGym_Candice:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 167, 0, 0, 0
     Message SnowpointGym_Text_CandiceIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 4, SnowpointGym_CandiceStartBattle
+    Message SnowpointGym_Text_CandiceTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message SnowpointGym_Text_CandiceTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+SnowpointGym_CandiceStartBattle:
     StartTrainerBattle TRAINER_LEADER_CANDICE
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, SnowpointGym_LostBattle

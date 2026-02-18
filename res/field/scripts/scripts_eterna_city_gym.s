@@ -65,6 +65,18 @@ EternaGym_Gardenia:
     CreateJournalEvent LOCATION_EVENT_GYM_WAS_TOO_TOUGH, 67, 0, 0, 0
     Message EternaGym_Text_GardeniaIntro
     CloseMessage
+    GetPartyCount VAR_RESULT
+    GoToIfLe VAR_RESULT, 3, EternaGym_GardeniaStartBattle
+    Message EternaGym_Text_GardeniaTooManyInterim
+    WaitABXPadPress
+    CloseMessage
+    Message EternaGym_Text_GardeniaTooManyPokemon
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+EternaGym_GardeniaStartBattle:
     StartTrainerBattle TRAINER_LEADER_GARDENIA
     CheckWonBattle VAR_RESULT
     GoToIfEq VAR_RESULT, FALSE, EternaGym_LostBattle
