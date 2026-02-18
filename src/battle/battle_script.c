@@ -9967,7 +9967,7 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         BOOL isParticipant = (data->battleCtx->sideGetExpMask[battler] & FlagIndex(slot)) != 0;
         msg.id = BattleStrings_Text_PokemonGainedExpPoints; // "{0} gained {1} Exp. Points!"
 
-        if (Pokemon_GetValue(mon, MON_DATA_HP, NULL) && Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) != MAX_POKEMON_LEVEL) {
+        if (Pokemon_GetValue(mon, MON_DATA_HP, NULL) && Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) < Pokemon_GetLevelCap()) {
             if (isParticipant) {
                 totalExp = data->battleCtx->gainedExp;
             } else {
@@ -9999,6 +9999,14 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
             u32 newExp = Pokemon_GetValue(mon, MON_DATA_EXPERIENCE, NULL);
             data->tmpData[GET_EXP_NEW_EXP] = newExp - Pokemon_GetCurrentLevelBaseExp(mon);
             newExp += totalExp;
+
+            {
+                u32 capExp = Pokemon_GetSpeciesBaseExpAt(
+                    Pokemon_GetValue(mon, MON_DATA_SPECIES, NULL), Pokemon_GetLevelCap());
+                if (newExp > capExp) {
+                    newExp = capExp;
+                }
+            }
 
             if (slot == data->battleCtx->selectedPartySlot[expBattler]) {
                 data->battleCtx->battleMons[expBattler].exp = newExp;

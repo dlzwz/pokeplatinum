@@ -179,9 +179,15 @@ static int Daycare_MoveToPartyFromDaycareMon(Party *party, DaycareMon *daycareMo
     species = BoxPokemon_GetValue(boxMon, MON_DATA_SPECIES, NULL);
     Pokemon_FromBoxPokemon(boxMon, mon);
 
-    if (Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) != MAX_POKEMON_LEVEL) {
+    if (Pokemon_GetValue(mon, MON_DATA_LEVEL, NULL) < Pokemon_GetLevelCap()) {
+        u32 capExp = Pokemon_GetSpeciesBaseExpAt(species, Pokemon_GetLevelCap());
         experience = Pokemon_GetValue(mon, MON_DATA_EXPERIENCE, NULL);
         experience += DaycareMon_GetSteps(daycareMon);
+
+        if (experience > capExp) {
+            experience = capExp;
+        }
+
         Pokemon_SetValue(mon, MON_DATA_EXPERIENCE, (u8 *)&experience);
         ov5_021E63E0(mon);
     }
@@ -220,6 +226,13 @@ int BoxPokemon_GiveExperience(BoxPokemon *boxMon, u32 givenExp)
 
     exp = BoxPokemon_GetValue(boxMonRef, MON_DATA_EXPERIENCE, NULL);
     exp += givenExp;
+
+    u16 species = BoxPokemon_GetValue(boxMonRef, MON_DATA_SPECIES, NULL);
+    u32 capExp = Pokemon_GetSpeciesBaseExpAt(species, Pokemon_GetLevelCap());
+
+    if (exp > capExp) {
+        exp = capExp;
+    }
 
     BoxPokemon_SetValue(boxMonRef, MON_DATA_EXPERIENCE, (u8 *)&exp);
     level = BoxPokemon_GetLevel(boxMonRef);
