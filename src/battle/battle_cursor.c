@@ -3877,6 +3877,12 @@ static int BattleSystem_Cursor_Menu(UnkStruct_ov16_02268A14 *param0, BOOL cursor
                     return i;
                 }
             }
+        } else if (!(BattleSystem_BattleType(param0->battleSys) & BATTLE_TYPE_TRAINER)) {
+            cursor->x = 1;
+            cursor->y = 1;
+            buttonId = 3; // RUN
+            BattleSystem_DrawCursor(param0->unk_6B8, v2->unk_14[buttonId].rect.left + 8, v2->unk_14[buttonId].rect.right - 8, v2->unk_14[buttonId].rect.top + 8, v2->unk_14[buttonId].rect.bottom - 8, (192 + 80) << FX32_SHIFT);
+            Sound_PlayEffect(SEQ_SE_CONFIRM);
         }
         break;
     }
