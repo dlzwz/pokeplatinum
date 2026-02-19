@@ -8,6 +8,8 @@
 #include "field/field_system.h"
 #include "overlay006/struct_npc_trade_animation_template.h"
 
+#include "field/field_system.h"
+
 #include "graphics.h"
 #include "heap.h"
 #include "map_header.h"
@@ -50,9 +52,32 @@ NpcTradeData *NpcTrade_Init(enum HeapID heapID, u32 npcTradeID)
     return data;
 }
 
+NpcTradeData *SelfTrade_Init(enum HeapID heapID, FieldSystem *fieldSystem, int partySlot)
+{
+    NpcTradeData *data = Heap_Alloc(heapID, sizeof(NpcTradeData));
+    memset(data, 0, sizeof(NpcTradeData));
+
+    data->npcTradeMon = NULL;
+    data->heapID = heapID;
+    data->npcTradeID = 0;
+    data->mon = Pokemon_New(heapID);
+
+    Party *party = SaveData_GetParty(fieldSystem->saveData);
+    Pokemon *partyMon = Party_GetPokemonBySlotIndex(party, partySlot);
+    Pokemon_Copy(partyMon, data->mon);
+
+    data->trainerInfo = TrainerInfo_New(heapID);
+    TrainerInfo_Copy(SaveData_GetTrainerInfo(fieldSystem->saveData), data->trainerInfo);
+
+    return data;
+}
+
 void NpcTrade_Free(NpcTradeData *data)
 {
-    Heap_Free(data->npcTradeMon);
+    if (data->npcTradeMon != NULL) {
+        Heap_Free(data->npcTradeMon);
+    }
+
     Heap_Free(data->mon);
     Heap_Free(data->trainerInfo);
     Heap_Free(data);
@@ -78,9 +103,11 @@ void ov6_02246254(FieldSystem *fieldSystem, NpcTradeData *data, int slot, TradeA
 {
     Party *party = SaveData_GetParty(fieldSystem->saveData);
     Pokemon *partyMon = Party_GetPokemonBySlotIndex(party, slot);
-    u32 level = Pokemon_GetValue(partyMon, MON_DATA_LEVEL, NULL);
 
-    NpcTrade_CreateMon(data->mon, data->npcTradeMon, level, data->npcTradeID, data->heapID, fieldSystem->location->mapId);
+    if (data->npcTradeMon != NULL) {
+        u32 level = Pokemon_GetValue(partyMon, MON_DATA_LEVEL, NULL);
+        NpcTrade_CreateMon(data->mon, data->npcTradeMon, level, data->npcTradeID, data->heapID, fieldSystem->location->mapId);
+    }
 
     Pokemon_Copy(partyMon, givingMon);
     Pokemon_Copy(data->mon, receivingMon);

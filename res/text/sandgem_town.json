@@ -215,14 +215,11 @@
       ]
     },
     {
-      "id": "SandgemTown_Text_PokemonAreSoCool",
+      "id": "SandgemTown_Text_SelfTradeOffer",
       "en_US": [
-        "Oh, wow!\n",
-        "Pokémon are so cool!\r",
-        "You can make yours battle and make\n",
-        "them stronger!\r",
-        "I wish I had some!\n",
-        "It’s so cool!"
+        "I can help you trade a Pokémon\n",
+        "with yourself!\r",
+        "Would you like to trade?"
       ]
     },
     {
@@ -280,6 +277,17 @@
       "en_US": [
         "Heal Your Pokémon!\n",
         "Pokémon Center"
+      ]
+    },
+    {
+      "id": "SandgemTown_Text_SelfTradeDone",
+      "en_US": "Come back anytime!"
+    },
+    {
+      "id": "SandgemTown_Text_SelfTradeNo",
+      "en_US": [
+        "Maybe another time!\n",
+        "Come back whenever you’d like."
       ]
     }
   ]

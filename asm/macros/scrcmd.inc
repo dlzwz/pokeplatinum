@@ -4981,6 +4981,11 @@
     .byte \floor
     .endm
 
+    .macro StartSelfTrade partySlot
+    .short 840
+    .short \partySlot
+    .endm
+
 
 
     .macro GoToIfLt varID, valueOrVarID, offset

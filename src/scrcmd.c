@@ -611,6 +611,7 @@ static BOOL ScrCmd_GetNpcTradeSpecies(ScriptContext *ctx);
 static BOOL ScrCmd_GetNpcTradeRequestedSpecies(ScriptContext *ctx);
 static BOOL ScrCmd_229(ScriptContext *ctx);
 static BOOL ScrCmd_FinishNpcTrade(ScriptContext *ctx);
+static BOOL ScrCmd_StartSelfTrade(ScriptContext *ctx);
 static BOOL ScrCmd_22B(ScriptContext *ctx);
 static BOOL ScrCmd_22C(ScriptContext *ctx);
 static BOOL ScrCmd_GetSetNationalDexEnabled(ScriptContext *ctx);
@@ -1608,6 +1609,7 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_BufferBallSealNamePlural,
     ScrCmd_CapitalizeFirstLetter,
     ScrCmd_BufferFloorNumber,
+    ScrCmd_StartSelfTrade,
 };
 
 const u32 Unk_020EAB80 = NELEMS(Unk_020EAC58);
@@ -6297,6 +6299,14 @@ static BOOL ScrCmd_FinishNpcTrade(ScriptContext *ctx)
 {
     void **data = FieldSystem_GetScriptMemberPtr(ctx->fieldSystem, SCRIPT_MANAGER_DATA_PTR);
     NpcTrade_Free((NpcTradeData *)*data);
+    return FALSE;
+}
+
+static BOOL ScrCmd_StartSelfTrade(ScriptContext *ctx)
+{
+    void **data = FieldSystem_GetScriptMemberPtr(ctx->fieldSystem, SCRIPT_MANAGER_DATA_PTR);
+    u16 partySlot = ScriptContext_GetVar(ctx);
+    *data = SelfTrade_Init(HEAP_ID_FIELD2, ctx->fieldSystem, partySlot);
     return FALSE;
 }
 
