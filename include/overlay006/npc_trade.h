@@ -38,6 +38,7 @@ typedef struct NpcTradeData {
 } NpcTradeData;
 
 NpcTradeData *NpcTrade_Init(enum HeapID heapID, u32 entryID);
+NpcTradeData *SelfTrade_Init(enum HeapID heapID, FieldSystem *fieldSystem, int partySlot);
 void NpcTrade_Free(NpcTradeData *data);
 u32 NpcTrade_GetSpecies(const NpcTradeData *data);
 u32 NpcTrade_GetRequestedSpecies(const NpcTradeData *data);

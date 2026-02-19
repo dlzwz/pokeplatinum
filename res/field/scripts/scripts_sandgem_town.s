@@ -663,7 +663,34 @@ SandgemTown_Movement_CounterpartLeave:
     EndMovement
 
 SandgemTown_Youngster:
-    NPCMessage SandgemTown_Text_PokemonAreSoCool
+    PlayFanfare SEQ_SE_CONFIRM
+    LockAll
+    FacePlayer
+    Message SandgemTown_Text_SelfTradeOffer
+    ShowYesNoMenu VAR_RESULT
+    GoToIfEq VAR_RESULT, MENU_NO, SandgemTown_SelfTradeDecline
+    CloseMessage
+    FadeScreenOut
+    WaitFadeScreen
+    SelectPokemonToTrade
+    FadeScreenIn
+    WaitFadeScreen
+    GoToIfEq VAR_RESULT, 0xFF, SandgemTown_SelfTradeDecline
+    SetVar VAR_0x8004, VAR_RESULT
+    StartSelfTrade VAR_0x8004
+    ScrCmd_229 VAR_0x8004
+    FinishNpcTrade
+    Message SandgemTown_Text_SelfTradeDone
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+SandgemTown_SelfTradeDecline:
+    Message SandgemTown_Text_SelfTradeNo
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
     End
 
 SandgemTown_PokemonBreederM:
