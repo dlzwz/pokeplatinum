@@ -12,6 +12,7 @@
 #include "constants/species.h"
 #include "constants/string.h"
 #include "generated/abilities.h"
+#include "generated/evolution_methods.h"
 #include "generated/game_records.h"
 #include "generated/genders.h"
 
@@ -6756,6 +6757,19 @@ int BattleSystem_CalcMoveDamage(BattleSystem *battleSys,
     if (attackerParams.heldItemEffect == HOLD_EFFECT_CUBONE_ATK_UP
         && (attackerParams.species == SPECIES_CUBONE || attackerParams.species == SPECIES_MAROWAK)) {
         attackStat *= 2;
+    }
+    // Everstone (Eviolite effect): +50% Defense and Sp. Defense for not-fully-evolved Pokemon
+    if (defenderParams.heldItemEffect == HOLD_EFFECT_NO_EVOLVE) {
+        SpeciesEvolution speciesEvolutions[MAX_EVOLUTIONS];
+        NARC_ReadWholeMemberByIndexPair(speciesEvolutions, NARC_INDEX_POKETOOL__PERSONAL__EVO, defenderParams.species);
+
+        for (i = 0; i < MAX_EVOLUTIONS; i++) {
+            if (speciesEvolutions[i].method != EVO_NONE) {
+                defenseStat = defenseStat * 150 / 100;
+                spDefenseStat = spDefenseStat * 150 / 100;
+                break;
+            }
+        }
     }
     if (attackerParams.heldItemEffect == HOLD_EFFECT_DIALGA_BOOST
         && (moveType == TYPE_DRAGON || moveType == TYPE_STEEL)
