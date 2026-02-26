@@ -178,18 +178,19 @@ static const UnownFormsGroup WildEncounters_UnownTables[] = {
     { 0x2, UnownOnlyExcQue }
 };
 
-// Default encounters are morning. They get replaced by this if it is not morning.
+// Randomly picks morning, day, or night encounters so all timed Pokemon are accessible anytime.
 void WildEncounters_ReplaceTimedEncounters(const WildEncounters *encounterData, int *timedSlot1, int *timedSlot2)
 {
-    int timeOfDay = GetTimeOfDay();
+    int roll = LCRNG_RandMod(3);
 
-    if (timeOfDay == TIMEOFDAY_DAY || timeOfDay == TIMEOFDAY_TWILIGHT) {
+    if (roll == 1) {
         *timedSlot1 = encounterData->dayEncounters[0];
         *timedSlot2 = encounterData->dayEncounters[1];
-    } else if (timeOfDay == TIMEOFDAY_NIGHT || timeOfDay == TIMEOFDAY_LATE_NIGHT) {
+    } else if (roll == 2) {
         *timedSlot1 = encounterData->nightEncounters[0];
         *timedSlot2 = encounterData->nightEncounters[1];
     }
+    // roll == 0: keep morning encounters (already set as defaults in slots 2-3)
 }
 
 static void WildEncounters_ReplaceSwarmEncounters(FieldSystem *fieldSystem, const WildEncounters *encounterData, int *radarSlot1, int *radarSlot2)
