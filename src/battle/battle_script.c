@@ -10875,7 +10875,7 @@ static void BattleScript_CatchMonTask(SysTask *task, void *inData)
         break;
     case SEQ_CATCH_MON_START_FADE_TO_BLACK_FOR_ASK_NICKNAME:
         if (ov21_021E8DEC(data->tmpPtr[0])) {
-            if (gSystem.pressedKeys & PAD_BUTTON_A) {
+            if (gSystem.pressedKeys & (PAD_BUTTON_A | PAD_BUTTON_B)) {
                 data->seqNum = SEQ_CATCH_MON_MOVE_FOR_ASK_NICKNAME;
             } else if (TouchScreen_Tapped()) {
                 Sound_PlayEffect(SEQ_SE_CONFIRM);
