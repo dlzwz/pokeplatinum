@@ -2959,9 +2959,7 @@ u8 Pokemon_SanitizeFormId(u16 monSpecies, u8 monForm)
         }
         break;
     case SPECIES_CHERRIM:
-        if (monForm > CHERRIM_FORM_COUNT - 1) {
-            monForm = 0;
-        }
+        monForm = CHERRIM_FORM_SUNSHINE;
         break;
     case SPECIES_ARCEUS:
         if (monForm > ARCEUS_FORM_COUNT - 1) {

@@ -1483,6 +1483,9 @@ static BOOL AddWildMonToParty(const int partySlot, const WildEncounters_FieldPar
         } else {
             form = 1; // east
         }
+    } else if (species == SPECIES_CHERRIM) {
+        setForm = TRUE;
+        form = CHERRIM_FORM_SUNSHINE;
     } else if (species == SPECIES_UNOWN) {
         setForm = TRUE;
 
