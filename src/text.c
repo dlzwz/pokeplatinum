@@ -237,11 +237,42 @@ static void SysTask_RunTextPrinter(SysTask *task, void *data)
         printer->callbackParam = 0;
         Text_GenerateFontHalfRowLookupTable(printer->template.fgColor, printer->template.bgColor, printer->template.shadowColor);
 
-        switch (TextPrinter_Render(printer)) {
-        case RENDER_PRINT:
-            Window_CopyToVRAM(printer->template.window);
-            // fall-through
+        // Derive chars-per-frame from textSpeedBottom (= renderDelay - 1).
+        // TEXT_SPEED_SLOW / (textSpeedBottom + 1) gives: FAST→4, NORMAL→2, SLOW→1.
+        // Setting textSpeedBottom = 0 during the burst bypasses the per-char delay
+        // check (delayCounter && textSpeedBottom) without affecting PAUSE or scroll
+        // states, which rely on delayCounter independently of textSpeedBottom.
+        u8 textSpeed = printer->textSpeedBottom;
+        u8 charsPerFrame = TEXT_SPEED_SLOW / (textSpeed + 1);
+        if (charsPerFrame > TEXT_SPEED_NORMAL) {
+            charsPerFrame = TEXT_SPEED_NORMAL;
+        } else if (charsPerFrame == 0) {
+            charsPerFrame = 1;
+        }
 
+        printer->textSpeedBottom = 0;
+
+        enum RenderResult result;
+        BOOL needsCopy = FALSE;
+
+        do {
+            result = TextPrinter_Render(printer);
+            if (result == RENDER_PRINT) {
+                needsCopy = TRUE;
+                charsPerFrame--;
+            } else {
+                break;
+            }
+        } while (charsPerFrame > 0);
+
+        printer->textSpeedBottom = textSpeed;
+
+        if (needsCopy) {
+            Window_CopyToVRAM(printer->template.window);
+        }
+
+        switch (result) {
+        case RENDER_PRINT:
         case RENDER_UPDATE:
             if (printer->callback != NULL) {
                 printer->callbackResult = (printer->callback)(&printer->template, printer->callbackParam);
