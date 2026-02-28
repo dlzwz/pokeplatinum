@@ -117,16 +117,9 @@ static int GameStartLoadSave_Init(ApplicationManager *appMan, int *state)
 static int GameStartLoadSave_Main(ApplicationManager *appMan, int *state)
 {
     SaveData *saveData = ((ApplicationArgs *)ApplicationManager_Args(appMan))->saveData;
-    SystemData *systemData = SaveData_GetSystemData(saveData);
 
     TryLoadingSave(HEAP_ID_GAME_START, saveData);
     Options_SetSystemButtonMode(saveData, OPTIONS_BUTTON_MODE_NORMAL);
-
-    if (!SystemData_MatchesCurrentSystem(systemData) || !SystemData_MatchesCurrentRTCOffset(systemData)) {
-        GameTime_StartPenalty(SaveData_GetGameTime(saveData));
-        SystemData_Init(systemData);
-        Party_SetShayminLandForm(SaveData_GetParty(saveData));
-    }
 
     PlayTime_Start(SaveData_GetPlayTime(saveData));
     return TRUE;
