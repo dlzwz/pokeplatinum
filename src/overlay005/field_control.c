@@ -230,7 +230,7 @@ BOOL FieldInput_Process(const FieldInput *input, FieldSystem *fieldSystem)
     }
 
     if (input->endMovement) {
-        if (Field_CheckWildEncounter(fieldSystem)) {
+        if (!(input->heldKeys & PAD_BUTTON_L) && Field_CheckWildEncounter(fieldSystem)) {
             return TRUE;
         }
 
