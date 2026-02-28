@@ -109,7 +109,7 @@ void NitroMain(void)
     }
 
     gSystem.showTitleScreenIntro = TRUE;
-    gSystem.frameCounter = 0;
+    gSystem.frameCounter = 1;
 
     InitRNG();
     BrightnessController_ResetAllControllers();
@@ -146,7 +146,7 @@ void NitroMain(void)
         OS_WaitIrq(TRUE, OS_IE_V_BLANK);
 
         gSystem.vblankCounter++;
-        gSystem.frameCounter = 0;
+        gSystem.frameCounter = 1;
 
         BrightnessController_Update();
         ExecScreenFade();
@@ -210,7 +210,7 @@ static void WaitFrame(void)
     OS_WaitIrq(TRUE, OS_IE_V_BLANK);
 
     gSystem.vblankCounter++;
-    gSystem.frameCounter = 0;
+    gSystem.frameCounter = 1;
 
     if (gSystem.vblankCallback != NULL) {
         gSystem.vblankCallback(gSystem.vblankCallbackData);
