@@ -14,26 +14,10 @@
     ScriptEntryEnd
 
 _0026:
-    GetTimeOfDay VAR_MAP_LOCAL_0
-    GoToIfEq VAR_MAP_LOCAL_0, 0, _006D
-    GoToIfEq VAR_MAP_LOCAL_0, 1, _007F
-    GoToIfEq VAR_MAP_LOCAL_0, 2, _007F
-    GoToIfEq VAR_MAP_LOCAL_0, 3, _007F
-    GoToIfEq VAR_MAP_LOCAL_0, 4, _007F
-    End
-
-_006D:
     ClearFlag FLAG_UNK_0x026D
     ClearFlag FLAG_UNK_0x026F
     SetFlag FLAG_UNK_0x026C
     SetFlag FLAG_UNK_0x026E
-    End
-
-_007F:
-    ClearFlag FLAG_UNK_0x026C
-    ClearFlag FLAG_UNK_0x026E
-    SetFlag FLAG_UNK_0x026D
-    SetFlag FLAG_UNK_0x026F
     End
 
 _0091:
