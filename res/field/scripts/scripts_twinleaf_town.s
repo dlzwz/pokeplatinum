@@ -1,6 +1,7 @@
 #include "macros/scrcmd.inc"
 #include "res/text/bank/twinleaf_town.h"
 #include "res/field/events/events_twinleaf_town.h"
+#include "generated/versions.h"
 
 
     ScriptEntry TwinleafTown_OnTransition
@@ -51,6 +52,57 @@ TwinleafTown_EveryoneGoesOnAdventures:
     Message TwinleafTown_Text_EveryoneGoesOnAdventures
     WaitABXPadPress
     CloseMessage
+    GetNationalDexEnabled VAR_RESULT
+    GoToIfNe VAR_RESULT, TRUE, TwinleafTown_EveryoneGoesOnAdventuresDone
+    Message TwinleafTown_Text_OldManFollowUp
+    InitLocalTextListMenu 1, 1, 0, VAR_RESULT, NO_EXIT_ON_B
+    AddListMenuEntry TwinleafTown_Text_JourneyRuby, 0
+    AddListMenuEntry TwinleafTown_Text_JourneySapphire, 1
+    AddListMenuEntry TwinleafTown_Text_JourneyEmerald, 2
+    AddListMenuEntry TwinleafTown_Text_JourneyFireRed, 3
+    AddListMenuEntry TwinleafTown_Text_JourneyLeafGreen, 4
+    AddListMenuEntry TwinleafTown_Text_JourneySinnoh, 5
+    ShowListMenu
+    GoToIfEq VAR_RESULT, 0, TwinleafTown_GBAJourneyRuby
+    GoToIfEq VAR_RESULT, 1, TwinleafTown_GBAJourneySapphire
+    GoToIfEq VAR_RESULT, 2, TwinleafTown_GBAJourneyEmerald
+    GoToIfEq VAR_RESULT, 3, TwinleafTown_GBAJourneyFireRed
+    GoToIfEq VAR_RESULT, 4, TwinleafTown_GBAJourneyLeafGreen
+    GoTo TwinleafTown_GBAJourneySinnoh
+
+TwinleafTown_GBAJourneyRuby:
+    SetGBACartridgeVersion VERSION_RUBY
+    Message TwinleafTown_Text_ResponseRuby
+    GoTo TwinleafTown_GBAJourneyDone
+
+TwinleafTown_GBAJourneySapphire:
+    SetGBACartridgeVersion VERSION_SAPPHIRE
+    Message TwinleafTown_Text_ResponseSapphire
+    GoTo TwinleafTown_GBAJourneyDone
+
+TwinleafTown_GBAJourneyEmerald:
+    SetGBACartridgeVersion VERSION_EMERALD
+    Message TwinleafTown_Text_ResponseEmerald
+    GoTo TwinleafTown_GBAJourneyDone
+
+TwinleafTown_GBAJourneyFireRed:
+    SetGBACartridgeVersion VERSION_FIRERED
+    Message TwinleafTown_Text_ResponseFireRed
+    GoTo TwinleafTown_GBAJourneyDone
+
+TwinleafTown_GBAJourneyLeafGreen:
+    SetGBACartridgeVersion VERSION_LEAFGREEN
+    Message TwinleafTown_Text_ResponseLeafGreen
+    GoTo TwinleafTown_GBAJourneyDone
+
+TwinleafTown_GBAJourneySinnoh:
+    SetGBACartridgeVersion VERSION_NONE
+    Message TwinleafTown_Text_ResponseSinnoh
+
+TwinleafTown_GBAJourneyDone:
+    WaitABXPadPress
+    CloseMessage
+TwinleafTown_EveryoneGoesOnAdventuresDone:
     ReleaseAll
     End
 

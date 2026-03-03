@@ -116,6 +116,58 @@
     {
       "id": "TwinleafTown_Text_RivalMailbox",
       "en_US": "{STRVAR_1 3, 0, 0}’s House"
+    },
+    {
+      "id": "TwinleafTown_Text_OldManFollowUp",
+      "en_US": "Heh... seeing young Trainers stirs\nold memories. Where was it again...?"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneyRuby",
+      "en_US": "Hoenn, red earth"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneySapphire",
+      "en_US": "Hoenn, blue sea"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneyEmerald",
+      "en_US": "Hoenn, green sky"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneyFireRed",
+      "en_US": "Kanto, red flame"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneyLeafGreen",
+      "en_US": "Kanto, green leaf"
+    },
+    {
+      "id": "TwinleafTown_Text_JourneySinnoh",
+      "en_US": "Sinnoh, familiar soil"
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseRuby",
+      "en_US": "That’s right. Hoenn. A land of warm\nearth and rugged paths. I can still\rfeel the heat rising off the ground\nthere."
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseSapphire",
+      "en_US": "That’s right. Hoenn. The sea seemed\nendless there... blue water stretching\rfarther than the eye could see."
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseEmerald",
+      "en_US": "That’s right. Hoenn. Green all around,\nand a sky so vast it felt like the\rwhole world was open to me."
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseFireRed",
+      "en_US": "Of course. Kanto. A lively place. I\nmet all sorts of Trainers there, full\rof spirit and ambition."
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseLeafGreen",
+      "en_US": "Of course. Kanto. Such a refreshing\nplace... quiet routes, tall grass, and\rthat feeling that adventure was\nwaiting just ahead."
+    },
+    {
+      "id": "TwinleafTown_Text_ResponseSinnoh",
+      "en_US": "Sinnoh... Of course. What am I saying?\nI didn’t need to travel far at all.\rMy true adventure was right here\nat home."
     }
   ]
 }

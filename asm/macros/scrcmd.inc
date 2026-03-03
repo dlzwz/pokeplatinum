@@ -3713,6 +3713,11 @@
     .short \destVarID
     .endm
 
+    .macro SetGBACartridgeVersion version
+    .short 841
+    .byte \version
+    .endm
+
     .macro ClearSpiritombCounter
     .short 623
     .endm

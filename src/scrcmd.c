@@ -652,6 +652,7 @@ static BOOL ScrCmd_26A(ScriptContext *ctx);
 static BOOL ScrCmd_CheckHasAllLegendaryTitansInParty(ScriptContext *ctx);
 static BOOL ScrCmd_TryGetRandomMassageGirlAccessory(ScriptContext *ctx);
 static BOOL ScrCmd_GetGBACartridgeVersion(ScriptContext *ctx);
+static BOOL ScrCmd_SetGBACartridgeVersion(ScriptContext *ctx);
 static BOOL ScrCmd_SetHiddenLocation(ScriptContext *ctx);
 static BOOL ScrCmd_BufferContestBackdropName(ScriptContext *ctx);
 static BOOL ScrCmd_CheckBonusRoundStreak(ScriptContext *ctx);
@@ -1609,6 +1610,7 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_CapitalizeFirstLetter,
     ScrCmd_BufferFloorNumber,
     ScrCmd_StartSelfTrade,
+    ScrCmd_SetGBACartridgeVersion,
 };
 
 const u32 Unk_020EAB80 = NELEMS(Unk_020EAC58);
@@ -6785,6 +6787,13 @@ static BOOL ScrCmd_GetGBACartridgeVersion(ScriptContext *ctx)
 
     *destVar = gSystem.gbaCartridgeVersion;
     return TRUE;
+}
+
+static BOOL ScrCmd_SetGBACartridgeVersion(ScriptContext *ctx)
+{
+    u8 version = ScriptContext_ReadByte(ctx);
+    SetGBACartridgeVersion(version);
+    return FALSE;
 }
 
 static BOOL ScrCmd_ClearSpiritombCounter(ScriptContext *ctx)
