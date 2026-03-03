@@ -861,6 +861,8 @@ static int ov5_021E04A8(FieldSystem *fieldSystem, PlayerAvatar *playerAvatar, in
 
 static BOOL FieldSystem_TryGetStuckInDeepMud(FieldSystem *fieldSystem, PlayerAvatar *playerAvatar, int param2, int param3)
 {
+    return FALSE;
+
     if (PlayerAvatar_CheckEscapedFromDeepMud(playerAvatar) == TRUE) {
         return FALSE;
     }
