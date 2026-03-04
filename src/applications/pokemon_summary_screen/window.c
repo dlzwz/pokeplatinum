@@ -1144,14 +1144,25 @@ static void DrawMemoPageWindows(PokemonSummaryScreen *summaryScreen)
 
 static void DrawSkillsPageWindows(PokemonSummaryScreen *summaryScreen)
 {
+    // Update title based on current view
+    u32 titleID;
+    if (summaryScreen->skillsView == SKILLS_VIEW_IVS) {
+        titleID = PokemonSummary_Text_PageTitleIndivValues;
+    } else if (summaryScreen->skillsView == SKILLS_VIEW_EVS) {
+        titleID = PokemonSummary_Text_PageTitleEffortValues;
+    } else {
+        titleID = PokemonSummary_Text_PageTitleSkills;
+    }
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SKILLS], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_SKILLS, titleID, SUMMARY_TEXT_WHITE, ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SKILLS]);
+
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_HP]);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_ATTACK]);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_DEFENSE]);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_ATTACK]);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_DEFENSE]);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SPEED]);
-    Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_ABILITY]);
 
     Window_FillTilemap(&summaryScreen->extraWindows[SUMMARY_WINDOW_HP], 0);
     Window_FillTilemap(&summaryScreen->extraWindows[SUMMARY_WINDOW_ATTACK], 0);
@@ -1162,30 +1173,70 @@ static void DrawSkillsPageWindows(PokemonSummaryScreen *summaryScreen)
     Window_FillTilemap(&summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY], 0);
     Window_FillTilemap(&summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY_DESCRIPTION], 0);
 
-    u32 hpWindowWidth = Window_GetWidth(&summaryScreen->extraWindows[SUMMARY_WINDOW_HP]) * 8;
+    Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_ABILITY]);
 
-    PrintCurrentAndMaxInfo(summaryScreen, 0, PokemonSummary_Text_Slash, PokemonSummary_Text_TemplateCurrentHp, PokemonSummary_Text_TemplateMaxHp, summaryScreen->monData.curHP, summaryScreen->monData.maxHP, 3, hpWindowWidth / 2, 0);
-    SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateAttack, summaryScreen->monData.attack, 3, PADDING_MODE_NONE);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
-    SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateDefense, summaryScreen->monData.defense, 3, PADDING_MODE_NONE);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
-    SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpAttack, summaryScreen->monData.spAttack, 3, PADDING_MODE_NONE);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
-    SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpDefense, summaryScreen->monData.spDefense, 3, PADDING_MODE_NONE);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
-    SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpeed, summaryScreen->monData.speed, 3, PADDING_MODE_NONE);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SPEED], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+    if (summaryScreen->skillsView == SKILLS_VIEW_STATS) {
+        u32 hpWindowWidth = Window_GetWidth(&summaryScreen->extraWindows[SUMMARY_WINDOW_HP]) * 8;
+        PrintCurrentAndMaxInfo(summaryScreen, 0, PokemonSummary_Text_Slash, PokemonSummary_Text_TemplateCurrentHp, PokemonSummary_Text_TemplateMaxHp, summaryScreen->monData.curHP, summaryScreen->monData.maxHP, 3, hpWindowWidth / 2, 0);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateAttack, summaryScreen->monData.attack, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateDefense, summaryScreen->monData.defense, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpAttack, summaryScreen->monData.spAttack, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpDefense, summaryScreen->monData.spDefense, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpeed, summaryScreen->monData.speed, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SPEED], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+    } else {
+        // IV or EV display
 
-    StringTemplate_SetAbilityName(summaryScreen->strFormatter, 0, summaryScreen->monData.ability);
-    String *buf = MessageLoader_GetNewString(summaryScreen->msgLoader, PokemonSummary_Text_TemplateAbility);
-    StringTemplate_Format(summaryScreen->strFormatter, summaryScreen->string, buf);
-    String_Free(buf);
+        Pokemon *mon;
+        BOOL shouldFreeMon = FALSE;
 
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY], SUMMARY_TEXT_BLACK, ALIGN_LEFT);
-    MessageLoader *msgLoader = MessageLoader_Init(MSG_LOADER_LOAD_ON_DEMAND, NARC_INDEX_MSGDATA__PL_MSG, TEXT_BANK_ABILITY_DESCRIPTIONS, HEAP_ID_POKEMON_SUMMARY_SCREEN);
-    MessageLoader_GetString(msgLoader, summaryScreen->monData.ability, summaryScreen->string);
-    MessageLoader_Free(msgLoader);
-    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY_DESCRIPTION], SUMMARY_TEXT_BLACK, ALIGN_LEFT);
+        if (summaryScreen->data->dataType == SUMMARY_DATA_BOX_MON) {
+            BoxPokemon *boxMon = PokemonSummaryScreen_MonData(summaryScreen);
+            mon = Pokemon_New(HEAP_ID_POKEMON_SUMMARY_SCREEN);
+            Pokemon_FromBoxPokemon(boxMon, mon);
+            shouldFreeMon = TRUE;
+        } else {
+            mon = PokemonSummaryScreen_MonData(summaryScreen);
+        }
+
+        u32 hp, atk, def, spA, spD, spe;
+        if (summaryScreen->skillsView == SKILLS_VIEW_IVS) {
+            hp  = Pokemon_GetValue(mon, MON_DATA_HP_IV, NULL);
+            atk = Pokemon_GetValue(mon, MON_DATA_ATK_IV, NULL);
+            def = Pokemon_GetValue(mon, MON_DATA_DEF_IV, NULL);
+            spA = Pokemon_GetValue(mon, MON_DATA_SPATK_IV, NULL);
+            spD = Pokemon_GetValue(mon, MON_DATA_SPDEF_IV, NULL);
+            spe = Pokemon_GetValue(mon, MON_DATA_SPEED_IV, NULL);
+        } else {
+            hp  = Pokemon_GetValue(mon, MON_DATA_HP_EV, NULL);
+            atk = Pokemon_GetValue(mon, MON_DATA_ATK_EV, NULL);
+            def = Pokemon_GetValue(mon, MON_DATA_DEF_EV, NULL);
+            spA = Pokemon_GetValue(mon, MON_DATA_SPATK_EV, NULL);
+            spD = Pokemon_GetValue(mon, MON_DATA_SPDEF_EV, NULL);
+            spe = Pokemon_GetValue(mon, MON_DATA_SPEED_EV, NULL);
+        }
+
+        if (shouldFreeMon) {
+            Heap_Free(mon);
+        }
+
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateAttack, hp, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_HP], SUMMARY_TEXT_BLACK, ALIGN_CENTER);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateAttack, atk, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateDefense, def, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpAttack, spA, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_ATTACK], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpDefense, spD, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SP_DEFENSE], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+        SetAndFormatNumberBuf(summaryScreen, PokemonSummary_Text_TemplateSpeed, spe, 3, PADDING_MODE_NONE);
+        PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_SPEED], SUMMARY_TEXT_BLACK, ALIGN_RIGHT);
+    }
 
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_HP]);
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_ATTACK]);
@@ -1193,6 +1244,18 @@ static void DrawSkillsPageWindows(PokemonSummaryScreen *summaryScreen)
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_SP_ATTACK]);
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_SP_DEFENSE]);
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_SPEED]);
+
+    StringTemplate_SetAbilityName(summaryScreen->strFormatter, 0, summaryScreen->monData.ability);
+    String *buf = MessageLoader_GetNewString(summaryScreen->msgLoader, PokemonSummary_Text_TemplateAbility);
+    StringTemplate_Format(summaryScreen->strFormatter, summaryScreen->string, buf);
+    String_Free(buf);
+    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY], SUMMARY_TEXT_BLACK, ALIGN_LEFT);
+
+    MessageLoader *msgLoader = MessageLoader_Init(MSG_LOADER_LOAD_ON_DEMAND, NARC_INDEX_MSGDATA__PL_MSG, TEXT_BANK_ABILITY_DESCRIPTIONS, HEAP_ID_POKEMON_SUMMARY_SCREEN);
+    MessageLoader_GetString(msgLoader, summaryScreen->monData.ability, summaryScreen->string);
+    MessageLoader_Free(msgLoader);
+    PrintStringToWindow(summaryScreen, &summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY_DESCRIPTION], SUMMARY_TEXT_BLACK, ALIGN_LEFT);
+
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY]);
     Window_ScheduleCopyToVRAM(&summaryScreen->extraWindows[SUMMARY_WINDOW_ABILITY_DESCRIPTION]);
 }

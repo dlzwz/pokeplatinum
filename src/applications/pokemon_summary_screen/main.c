@@ -616,7 +616,11 @@ static int HandleInput_Main(PokemonSummaryScreen *summaryScreen)
             return TryFeedPoffin(summaryScreen);
         }
 
-        if (summaryScreen->page == SUMMARY_PAGE_BATTLE_MOVES) {
+        if (summaryScreen->page == SUMMARY_PAGE_SKILLS) {
+            Sound_PlayEffect(SEQ_SE_DP_SELECT5);
+            summaryScreen->skillsView = (summaryScreen->skillsView + 1) % 3;
+            PokemonSummaryScreen_DrawExtraWindows(summaryScreen);
+        } else if (summaryScreen->page == SUMMARY_PAGE_BATTLE_MOVES) {
             Sound_PlayEffect(SEQ_SE_DP_SYU01);
             summaryScreen->pageState = PAGE_STATE_INITIAL;
             return SUMMARY_STATE_SETUP_BATTLE_MOVE_INFO;
@@ -1274,6 +1278,8 @@ static void SetupPageFromSubscreenButton(PokemonSummaryScreen *summaryScreen, u8
         return;
     }
 
+    summaryScreen->skillsView = SKILLS_VIEW_STATS;
+
     // this code path is never reached because the select move mode
     // doesn't handle subscreen input
     if (summaryScreen->data->mode == SUMMARY_MODE_SELECT_MOVE) {
@@ -1465,6 +1471,7 @@ static void ChangeSummaryMon(PokemonSummaryScreen *summaryScreen, s8 delta)
         return;
     }
 
+    summaryScreen->skillsView = SKILLS_VIEW_STATS;
     summaryScreen->data->monIndex = monIndex;
 
     SetMonData(summaryScreen);

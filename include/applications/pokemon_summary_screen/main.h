@@ -466,7 +466,13 @@ typedef struct PokemonSummaryScreen {
     u8 ribbonRow;
     u8 ribbonMax;
     u8 ribbonID;
+
+    u8 skillsView;
 } PokemonSummaryScreen;
+
+#define SKILLS_VIEW_STATS 0
+#define SKILLS_VIEW_IVS   1
+#define SKILLS_VIEW_EVS   2
 
 BOOL PokemonSummaryScreen_ShowContestData(SaveData *saveData);
 void PokemonSummaryScreen_FlagVisiblePages(PokemonSummary *summary, const u8 *pages);
