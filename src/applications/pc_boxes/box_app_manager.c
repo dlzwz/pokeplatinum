@@ -443,19 +443,19 @@ static int BoxAppMan_CursorInBoxInputHandler(BoxApplicationManager *boxAppMan)
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_L)) {
+        if (JOY_NEW(PAD_BUTTON_L)) {
             BoxApp_LoadLeftBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_R)) {
+        if (JOY_NEW(PAD_BUTTON_R)) {
             BoxApp_LoadRightBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             BoxGraphics_TaskHandler(boxAppMan->unk_114, FUNC_BoxGraphics_MoveCursor);
 
             if (BoxApp_GetPreviewMonSource(&boxAppMan->boxApp) == PREVIEW_MON_UNDER_CURSOR) {
@@ -536,7 +536,7 @@ static int BoxAppMan_CursorInPartyInputHandler(BoxApplicationManager *boxAppMan)
             break;
         }
 
-        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             BoxGraphics_TaskHandler(boxAppMan->unk_114, FUNC_BoxGraphics_MoveCursor);
 
             if (BoxApp_GetPreviewMonSource(&boxAppMan->boxApp) == PREVIEW_MON_UNDER_CURSOR) {
@@ -621,13 +621,13 @@ static int BoxAppMan_CursorOnHeaderInputHandler(BoxApplicationManager *boxAppMan
 {
     switch (boxAppMan->cursorLocationHandlerState) {
     case CURSOR_ON_HEADER_WAIT_FOR_INPUT:
-        if (JOY_HELD(PAD_KEY_LEFT | PAD_BUTTON_L)) {
+        if (JOY_NEW(PAD_KEY_LEFT | PAD_BUTTON_L)) {
             BoxApp_LoadLeftBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (JOY_HELD(PAD_KEY_RIGHT | PAD_BUTTON_R)) {
+        if (JOY_NEW(PAD_KEY_RIGHT | PAD_BUTTON_R)) {
             BoxApp_LoadRightBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
@@ -643,7 +643,7 @@ static int BoxAppMan_CursorOnHeaderInputHandler(BoxApplicationManager *boxAppMan
             break;
         }
 
-        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             BoxGraphics_TaskHandler(boxAppMan->unk_114, FUNC_BoxGraphics_MoveCursor);
 
             if (BoxApp_GetPreviewMonSource(&boxAppMan->boxApp) == PREVIEW_MON_UNDER_CURSOR) {
@@ -686,19 +686,19 @@ static int BoxAppMan_CursorOnCloseInputHandler(BoxApplicationManager *boxAppMan)
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_L)) {
+        if (JOY_NEW(PAD_BUTTON_L)) {
             BoxApp_LoadLeftBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_R)) {
+        if (JOY_NEW(PAD_BUTTON_R)) {
             BoxApp_LoadRightBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             BoxGraphics_TaskHandler(boxAppMan->unk_114, FUNC_BoxGraphics_MoveCursor);
 
             if (BoxApp_GetPreviewMonSource(&boxAppMan->boxApp) == PREVIEW_MON_UNDER_CURSOR) {
@@ -757,19 +757,19 @@ static int BoxAppMan_CursorOnPartyButtonInputHandler(BoxApplicationManager *boxA
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_L)) {
+        if (JOY_NEW(PAD_BUTTON_L)) {
             BoxApp_LoadLeftBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (JOY_HELD(PAD_BUTTON_R)) {
+        if (JOY_NEW(PAD_BUTTON_R)) {
             BoxApp_LoadRightBoxCustomization(&boxAppMan->boxApp);
             BoxAppMan_RegisterBoxApplicationAction(boxAppMan, BoxAppMan_ChangeToNewBoxAction);
             break;
         }
 
-        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        if (BoxAppMan_TryMoveCursorFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             BoxGraphics_TaskHandler(boxAppMan->unk_114, FUNC_BoxGraphics_MoveCursor);
 
             if (BoxApp_GetPreviewMonSource(&boxAppMan->boxApp) == PREVIEW_MON_UNDER_CURSOR) {
@@ -1608,7 +1608,7 @@ static void BoxAppMan_MultiSelectAction(BoxApplicationManager *boxAppMan, u32 *s
 
     case MULTI_MOVE_DEFINE_SELECTION:
         if (JOY_HELD(PAD_BUTTON_A)) {
-            switch (BoxAppMan_TryMoveSelectionFromUserInput(gSystem.heldKeys, boxAppMan)) {
+            switch (BoxAppMan_TryMoveSelectionFromUserInput(gSystem.pressedKeys, boxAppMan)) {
             case CURSOR_STOP:
                 if (JOY_HELD(PAD_PLUS_KEY_MASK) == JOY_NEW(PAD_PLUS_KEY_MASK)) {
                     Sound_PlayEffect(SEQ_SE_DP_BOX03);
@@ -1641,7 +1641,7 @@ static void BoxAppMan_MultiSelectAction(BoxApplicationManager *boxAppMan, u32 *s
             break;
         }
 
-        switch (BoxAppMan_TryMoveSelectionFromUserInput(gSystem.heldKeys, boxAppMan)) {
+        switch (BoxAppMan_TryMoveSelectionFromUserInput(gSystem.pressedKeys, boxAppMan)) {
         case CURSOR_STOP:
             if (JOY_HELD(PAD_PLUS_KEY_MASK) == JOY_NEW(PAD_PLUS_KEY_MASK)) {
                 Sound_PlayEffect(SEQ_SE_DP_BOX03);

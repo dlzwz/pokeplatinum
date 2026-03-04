@@ -1486,13 +1486,13 @@ static u8 sub_0207FA24(PartyMenuApplication *application)
 
     v1 = GRID_MENU_CURSOR_POSITION_DIRECTION_NONE;
 
-    if (gSystem.pressedKeysRepeatable & PAD_KEY_UP) {
+    if (gSystem.pressedKeys & PAD_KEY_UP) {
         v1 = GRID_MENU_CURSOR_POSITION_DIRECTION_UP;
-    } else if (gSystem.pressedKeysRepeatable & PAD_KEY_DOWN) {
+    } else if (gSystem.pressedKeys & PAD_KEY_DOWN) {
         v1 = GRID_MENU_CURSOR_POSITION_DIRECTION_DOWN;
-    } else if (gSystem.pressedKeysRepeatable & PAD_KEY_LEFT) {
+    } else if (gSystem.pressedKeys & PAD_KEY_LEFT) {
         v1 = GRID_MENU_CURSOR_POSITION_DIRECTION_LEFT;
-    } else if (gSystem.pressedKeysRepeatable & PAD_KEY_RIGHT) {
+    } else if (gSystem.pressedKeys & PAD_KEY_RIGHT) {
         v1 = GRID_MENU_CURSOR_POSITION_DIRECTION_RIGHT;
     }
 
