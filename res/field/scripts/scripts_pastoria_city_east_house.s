@@ -10,28 +10,17 @@ _000A:
     PlayFanfare SEQ_SE_CONFIRM
     LockAll
     FacePlayer
-    BufferItemNameWithArticle 4, ITEM_HEART_SCALE
     GoToIfUnset FLAG_UNK_0x00E9, _003D
-    CheckItem ITEM_HEART_SCALE, 1, VAR_RESULT
-    GoToIfEq VAR_RESULT, 0, _005F
     GoTo _006A
 
 _003D:
     SetFlag FLAG_UNK_0x00E9
     Message 0
-    CheckItem ITEM_HEART_SCALE, 1, VAR_RESULT
-    GoToIfEq VAR_RESULT, 0, _005F
-    GoTo _006A
-
-_005F:
-    Message 2
-    WaitABXPadPress
-    CloseMessage
-    ReleaseAll
-    End
 
 _006A:
     Message 1
+    ShowYesNoMenu VAR_RESULT
+    GoToIfEq VAR_RESULT, MENU_NO, _005A
     Message 3
     CloseMessage
     FadeScreenOut
@@ -56,11 +45,20 @@ _006A:
     FadeScreenIn
     WaitFadeScreen
     GoToIfEq VAR_RESULT, 0xFF, _005F
-    RemoveItem ITEM_HEART_SCALE, 1, VAR_RESULT
-    BufferPlayerName 3
     Message 16
     WaitABXPadPress
     CloseMessage
+    ReleaseAll
+    End
+
+_005A:
+    Message 2
+    WaitABXPadPress
+    CloseMessage
+    ReleaseAll
+    End
+
+_005F:
     ReleaseAll
     End
 
