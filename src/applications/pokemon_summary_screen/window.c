@@ -36,6 +36,14 @@ enum SummaryTextAlignment {
     ALIGN_CENTER,
 };
 
+static TextColor StatLabelColorByNature(u8 nature, u8 statType)
+{
+    s8 affinity = Pokemon_GetStatAffinityOf(nature, statType);
+    if (affinity > 0) return SUMMARY_TEXT_RED;
+    if (affinity < 0) return SUMMARY_TEXT_BLUE;
+    return SUMMARY_TEXT_WHITE;
+}
+
 #define RIBBON_INDEX_TEXT_X 56
 
 #define PP_TEXT_X 60
@@ -1158,10 +1166,25 @@ static void DrawSkillsPageWindows(PokemonSummaryScreen *summaryScreen)
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SKILLS]);
 
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_HP]);
+
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_ATTACK], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_ATTACK, PokemonSummary_Text_LabelAttack, StatLabelColorByNature(summaryScreen->monData.nature, STAT_ATTACK), ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_ATTACK]);
+
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_DEFENSE], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_DEFENSE, PokemonSummary_Text_LabelDefense, StatLabelColorByNature(summaryScreen->monData.nature, STAT_DEFENSE), ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_DEFENSE]);
+
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_ATTACK], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_SP_ATTACK, PokemonSummary_Text_LabelSpAttack, StatLabelColorByNature(summaryScreen->monData.nature, STAT_SPECIAL_ATTACK), ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_ATTACK]);
+
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_DEFENSE], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_SP_DEFENSE, PokemonSummary_Text_LabelSpDefense, StatLabelColorByNature(summaryScreen->monData.nature, STAT_SPECIAL_DEFENSE), ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SP_DEFENSE]);
+
+    Window_FillTilemap(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SPEED], 0);
+    PrintTextToStaticWindow(summaryScreen, SUMMARY_WINDOW_LABEL_SPEED, PokemonSummary_Text_LabelSpeed, StatLabelColorByNature(summaryScreen->monData.nature, STAT_SPEED), ALIGN_LEFT);
     Window_ScheduleCopyToVRAM(&summaryScreen->staticWindows[SUMMARY_WINDOW_LABEL_SPEED]);
 
     Window_FillTilemap(&summaryScreen->extraWindows[SUMMARY_WINDOW_HP], 0);
