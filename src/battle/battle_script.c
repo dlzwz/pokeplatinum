@@ -2449,8 +2449,8 @@ static BOOL BtlCmd_CalcExpGain(BattleSystem *battleSys, BattleContext *battleCtx
 
         // Shared EXP for non-participants (modern EXP Share behavior)
         int totalPartyAlive = 0;
-        for (i = 0; i < Party_GetCurrentCount(BattleSystem_Party(battleSys, BATTLER_US)); i++) {
-            Pokemon *partyMon = BattleSystem_PartyPokemon(battleSys, BATTLER_US, i);
+        for (i = 0; i < Party_GetCurrentCount(BattleSystem_GetParty(battleSys, BATTLER_US)); i++) {
+            Pokemon *partyMon = BattleSystem_GetPartyPokemon(battleSys, BATTLER_US, i);
             if (Pokemon_GetValue(partyMon, MON_DATA_SPECIES, NULL)
                 && Pokemon_GetValue(partyMon, MON_DATA_HP, NULL)) {
                 totalPartyAlive++;
@@ -10461,8 +10461,8 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         // Show the single "rest of team gained Exp." message if any non-participant
         // is alive and below the level cap (i.e., they actually receive shared EXP).
         BOOL hasNonParticipant = FALSE;
-        for (i = 0; i < BattleSystem_PartyCount(data->battleSys, expBattler); i++) {
-            Pokemon *partyMon = BattleSystem_PartyPokemon(data->battleSys, expBattler, i);
+        for (i = 0; i < BattleSystem_GetPartyCount(data->battleSys, expBattler); i++) {
+            Pokemon *partyMon = BattleSystem_GetPartyPokemon(data->battleSys, expBattler, i);
             if (Pokemon_GetValue(partyMon, MON_DATA_SPECIES, NULL)
                 && Pokemon_GetValue(partyMon, MON_DATA_HP, NULL)
                 && !Pokemon_GetValue(partyMon, MON_DATA_IS_EGG, NULL)
@@ -10475,7 +10475,7 @@ static void BattleScript_GetExpTask(SysTask *task, void *inData)
         if (hasNonParticipant) {
             msg.id = BattleStrings_Text_RestOfTeamGainedExp;
             msg.tags = TAG_NONE;
-            data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_TextSpeed(data->battleSys));
+            data->tmpData[GET_EXP_MSG_INDEX] = BattleMessage_Print(data->battleSys, msgLoader, &msg, BattleSystem_GetTextSpeed(data->battleSys));
             data->tmpData[GET_EXP_MSG_DELAY] = 30 / 4;
             data->seqNum = SEQ_GET_EXP_WAIT_SHARED_MSG_PRINT;
         } else {

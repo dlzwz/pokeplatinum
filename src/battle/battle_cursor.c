@@ -3877,7 +3877,7 @@ static int BattleSystem_Cursor_Menu(UnkStruct_ov16_02268A14 *param0, BOOL cursor
                     return i;
                 }
             }
-        } else if (!(BattleSystem_BattleType(param0->battleSys) & BATTLE_TYPE_TRAINER)) {
+        } else if (!(BattleSystem_GetBattleType(param0->battleSys) & BATTLE_TYPE_TRAINER)) {
             cursor->x = 1;
             cursor->y = 1;
             buttonId = 3; // RUN
