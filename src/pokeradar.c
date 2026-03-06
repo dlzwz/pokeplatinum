@@ -422,24 +422,15 @@ BOOL RefreshRadarChain(FieldTask *taskMan)
     switch (*v1) {
     case 0:
         MapObjectMan_PauseAllMovement(fieldSystem->mapObjMan);
-        u8 *v2 = SpecialEncounter_GetRadarCharge(SaveData_GetSpecialEncounters(fieldSystem->saveData));
-
-        if (*v2 < RADAR_BATTERY_STEPS) {
-            ScriptManager_Start(taskMan, SCRIPT_ID(POKE_RADAR, 0), NULL, NULL);
-            *(u16 *)FieldSystem_GetScriptMemberPtr(fieldSystem, SCRIPT_DATA_PARAMETER_0) = RADAR_BATTERY_STEPS - (*v2);
-            *v1 = 4;
+        int v3 = Player_GetXPos(fieldSystem->playerAvatar);
+        int v4 = Player_GetZPos(fieldSystem->playerAvatar);
+        RadarSpawnPatches(fieldSystem, v3, v4, fieldSystem->chain);
+        if (fieldSystem->chain->active) {
+            SetupGrassPatches(fieldSystem, 0x1, fieldSystem->chain);
+            FieldSystem_CreateShakingRadarPatches(fieldSystem, fieldSystem->chain);
+            *v1 = 1;
         } else {
-            *v2 = 0;
-            int v3 = Player_GetXPos(fieldSystem->playerAvatar);
-            int v4 = Player_GetZPos(fieldSystem->playerAvatar);
-            RadarSpawnPatches(fieldSystem, v3, v4, fieldSystem->chain);
-            if (fieldSystem->chain->active) {
-                SetupGrassPatches(fieldSystem, 0x1, fieldSystem->chain);
-                FieldSystem_CreateShakingRadarPatches(fieldSystem, fieldSystem->chain);
-                *v1 = 1;
-            } else {
-                *v1 = 3;
-            }
+            *v1 = 3;
         }
         break;
     case 1:
