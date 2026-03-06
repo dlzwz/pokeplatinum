@@ -1690,68 +1690,68 @@ _19E4:
     Return
 
 _1A05:
-    BufferValuePaddingDigits 0, 120000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 120, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_BIG_SOFA, _1D29
     CallIfSet FLAG_VILLA_FURNITURE_BIG_SOFA, _1D33
     Return
 
 _1A26:
-    BufferValuePaddingDigits 0, 90000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 90, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_SMALL_SOFA, _1D3D
     CallIfSet FLAG_VILLA_FURNITURE_SMALL_SOFA, _1D47
     Return
 
 _1A47:
-    BufferValuePaddingDigits 0, 187000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 187, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_BED, _1D51
     CallIfSet FLAG_VILLA_FURNITURE_BED, _1D5B
     Return
 
 _1A68:
-    BufferValuePaddingDigits 0, 58000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 58, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_NIGHT_TABLE, _1D65
     CallIfSet FLAG_VILLA_FURNITURE_NIGHT_TABLE, _1D6F
     Return
 
 _1A89:
-    BufferValuePaddingDigits 0, 220000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 220, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_TV, _1D79
     CallIfSet FLAG_VILLA_FURNITURE_TV, _1D83
     Return
 
 _1AAA:
-    BufferValuePaddingDigits 0, 160000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 160, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_AUDIO_SYSTEM, _1D8D
     CallIfSet FLAG_VILLA_FURNITURE_AUDIO_SYSTEM, _1D97
     Return
 
 _1ACB:
-    BufferValuePaddingDigits 0, 150000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 150, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_BOOKSHELF, _1DA1
     CallIfSet FLAG_VILLA_FURNITURE_BOOKSHELF, _1DAB
     Return
 
 _1AEC:
-    BufferValuePaddingDigits 0, 127000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 127, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_RACK, _1DB5
     CallIfSet FLAG_VILLA_FURNITURE_RACK, _1DBF
     Return
 
 _1B0D:
-    BufferValuePaddingDigits 0, 120000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 120, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_HOUSEPLANT, _1DC9
     CallIfSet FLAG_VILLA_FURNITURE_HOUSEPLANT, _1DD3
     Return
 
 _1B2E:
-    BufferValuePaddingDigits 0, 168000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 168, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_PC_DESK, _1DDD
     CallIfSet FLAG_VILLA_FURNITURE_PC_DESK, _1DE7
     Return
 
 _1B4F:
     GoToIfUnset FLAG_VILLA_FURNITURE_RACK, _1D13
-    BufferValuePaddingDigits 0, 25300, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 25, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_MUSIC_BOX, _1DF1
     CallIfSet FLAG_VILLA_FURNITURE_MUSIC_BOX, _1DFB
     Return
@@ -1759,7 +1759,7 @@ _1B4F:
 _1B7B:
     ScrCmd_30F 13, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 150000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 150, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_POKEMON_BUST, _1E05
     CallIfSet FLAG_VILLA_FURNITURE_POKEMON_BUST, _1E0F
     Return
@@ -1767,7 +1767,7 @@ _1B7B:
 _1BAF:
     ScrCmd_30F 14, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 150000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 150, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_POKEMON_BUST_SILVER, _1E19
     CallIfSet FLAG_VILLA_FURNITURE_POKEMON_BUST_SILVER, _1E23
     Return
@@ -1775,7 +1775,7 @@ _1BAF:
 _1BE3:
     ScrCmd_30F 15, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 146700, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 146, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_PIANO, _1E2D
     CallIfSet FLAG_VILLA_FURNITURE_PIANO, _1E37
     Return
@@ -1783,7 +1783,7 @@ _1BE3:
 _1C17:
     ScrCmd_30F 16, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 208000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 208, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_GUEST_SET, _1E41
     CallIfSet FLAG_VILLA_FURNITURE_GUEST_SET, _1E4B
     Return
@@ -1791,7 +1791,7 @@ _1C17:
 _1C4B:
     ScrCmd_30F 17, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 52000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 52, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_WALL_CLOCK, _1E55
     CallIfSet FLAG_VILLA_FURNITURE_WALL_CLOCK, _1E5F
     Return
@@ -1799,14 +1799,14 @@ _1C4B:
 _1C7F:
     ScrCmd_30F 18, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 140000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 140, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_MASTERPIECE, _1E69
     CallIfSet FLAG_VILLA_FURNITURE_MASTERPIECE, _1E73
     Return
 
 _1CB3:
     GoToIfUnset FLAG_VILLA_FURNITURE_GUEST_SET, _1D13
-    BufferValuePaddingDigits 0, 108000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 108, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_TEA_SET, _1E7D
     CallIfSet FLAG_VILLA_FURNITURE_TEA_SET, _1E87
     Return
@@ -1814,7 +1814,7 @@ _1CB3:
 _1CDF:
     ScrCmd_30F 20, VAR_RESULT
     GoToIfEq VAR_RESULT, 0, _1D13
-    BufferValuePaddingDigits 0, 120000, PADDING_MODE_SPACES, 6
+    BufferValuePaddingDigits 0, 120, PADDING_MODE_SPACES, 6
     CallIfUnset FLAG_VILLA_FURNITURE_CHANDELIER, _1E91
     CallIfSet FLAG_VILLA_FURNITURE_CHANDELIER, _1E9B
     Return
@@ -2071,79 +2071,79 @@ Villa_CheckMoney_Table:
     Return
 
 Villa_CheckMoney_BigSofa:
-    CheckMoney VAR_0x8003, 120000
+    CheckMoney VAR_0x8003, 120
     Return
 
 Villa_CheckMoney_SmallSofa:
-    CheckMoney VAR_0x8003, 90000
+    CheckMoney VAR_0x8003, 90
     Return
 
 Villa_CheckMoney_Bed:
-    CheckMoney VAR_0x8003, 187000
+    CheckMoney VAR_0x8003, 187
     Return
 
 Villa_CheckMoney_NightTable:
-    CheckMoney VAR_0x8003, 58000
+    CheckMoney VAR_0x8003, 58
     Return
 
 Villa_CheckMoney_TV:
-    CheckMoney VAR_0x8003, 220000
+    CheckMoney VAR_0x8003, 220
     Return
 
 Villa_CheckMoney_AudioSystem:
-    CheckMoney VAR_0x8003, 160000
+    CheckMoney VAR_0x8003, 160
     Return
 
 Villa_CheckMoney_Bookshelf:
-    CheckMoney VAR_0x8003, 150000
+    CheckMoney VAR_0x8003, 150
     Return
 
 Villa_CheckMoney_Rack:
-    CheckMoney VAR_0x8003, 127000
+    CheckMoney VAR_0x8003, 127
     Return
 
 Villa_CheckMoney_Houseplant:
-    CheckMoney VAR_0x8003, 120000
+    CheckMoney VAR_0x8003, 120
     Return
 
 Villa_CheckMoney_PCDesk:
-    CheckMoney VAR_0x8003, 168000
+    CheckMoney VAR_0x8003, 168
     Return
 
 Villa_CheckMoney_MusicBox:
-    CheckMoney VAR_0x8003, 25300
+    CheckMoney VAR_0x8003, 25
     Return
 
 Villa_CheckMoney_PokemonBust:
-    CheckMoney VAR_0x8003, 150000
+    CheckMoney VAR_0x8003, 150
     Return
 
 Villa_CheckMoney_PokemonBustSilver:
-    CheckMoney VAR_0x8003, 150000
+    CheckMoney VAR_0x8003, 150
     Return
 
 Villa_CheckMoney_Piano:
-    CheckMoney VAR_0x8003, 146700
+    CheckMoney VAR_0x8003, 146
     Return
 
 Villa_CheckMoney_GuestSet:
-    CheckMoney VAR_0x8003, 208000
+    CheckMoney VAR_0x8003, 208
     Return
 
 Villa_CheckMoney_WallClock:
-    CheckMoney VAR_0x8003, 52000
+    CheckMoney VAR_0x8003, 52
     Return
 
 Villa_CheckMoney_Masterpiece:
-    CheckMoney VAR_0x8003, 140000
+    CheckMoney VAR_0x8003, 140
     Return
 
 Villa_CheckMoney_TeaSet:
-    CheckMoney VAR_0x8003, 108000
+    CheckMoney VAR_0x8003, 108
     Return
 
 Villa_CheckMoney_Chandelier:
-    CheckMoney VAR_0x8003, 120000
+    CheckMoney VAR_0x8003, 120
     Return
 
 Villa_BuyFurniture_Table:
@@ -2153,116 +2153,116 @@ Villa_BuyFurniture_Table:
     Return
 
 Villa_BuyFurniture_BigSofa:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120000
-    RemoveMoney 120000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120
+    RemoveMoney 120
     SetFlag FLAG_VILLA_FURNITURE_BIG_SOFA
     Return
 
 Villa_BuyFurniture_SmallSofa:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 90000
-    RemoveMoney 90000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 90
+    RemoveMoney 90
     SetFlag FLAG_VILLA_FURNITURE_SMALL_SOFA
     Return
 
 Villa_BuyFurniture_Bed:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 187000
-    RemoveMoney 187000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 187
+    RemoveMoney 187
     SetFlag FLAG_VILLA_FURNITURE_BED
     Return
 
 Villa_BuyFurniture_NightTable:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 58000
-    RemoveMoney 58000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 58
+    RemoveMoney 58
     SetFlag FLAG_VILLA_FURNITURE_NIGHT_TABLE
     Return
 
 Villa_BuyFurniture_TV:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 220000
-    RemoveMoney 220000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 220
+    RemoveMoney 220
     SetFlag FLAG_VILLA_FURNITURE_TV
     Return
 
 Villa_BuyFurniture_AudioSystem:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 160000
-    RemoveMoney 160000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 160
+    RemoveMoney 160
     SetFlag FLAG_VILLA_FURNITURE_AUDIO_SYSTEM
     Return
 
 Villa_BuyFurniture_Bookshelf:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150000
-    RemoveMoney 150000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150
+    RemoveMoney 150
     SetFlag FLAG_VILLA_FURNITURE_BOOKSHELF
     Return
 
 Villa_BuyFurniture_Rack:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 127000
-    RemoveMoney 127000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 127
+    RemoveMoney 127
     SetFlag FLAG_VILLA_FURNITURE_RACK
     Return
 
 Villa_BuyFurniture_Houseplant:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120000
-    RemoveMoney 120000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120
+    RemoveMoney 120
     SetFlag FLAG_VILLA_FURNITURE_HOUSEPLANT
     Return
 
 Villa_BuyFurniture_PCDesk:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 168000
-    RemoveMoney 168000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 168
+    RemoveMoney 168
     SetFlag FLAG_VILLA_FURNITURE_PC_DESK
     Return
 
 Villa_BuyFurniture_MusicBox:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 25300
-    RemoveMoney 25300
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 25
+    RemoveMoney 25
     SetFlag FLAG_VILLA_FURNITURE_MUSIC_BOX
     Return
 
 Villa_BuyFurniture_PokemonBust:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150000
-    RemoveMoney 150000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150
+    RemoveMoney 150
     SetFlag FLAG_VILLA_FURNITURE_POKEMON_BUST
     Return
 
 Villa_BuyFurniture_PokemonBustSilver:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150000
-    RemoveMoney 150000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 150
+    RemoveMoney 150
     SetFlag FLAG_VILLA_FURNITURE_POKEMON_BUST_SILVER
     Return
 
 Villa_BuyFurniture_Piano:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 146700
-    RemoveMoney 146700
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 146
+    RemoveMoney 146
     SetFlag FLAG_VILLA_FURNITURE_PIANO
     Return
 
 Villa_BuyFurniture_GuestSet:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 208000
-    RemoveMoney 208000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 208
+    RemoveMoney 208
     SetFlag FLAG_VILLA_FURNITURE_GUEST_SET
     Return
 
 Villa_BuyFurniture_WallClock:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 52000
-    RemoveMoney 52000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 52
+    RemoveMoney 52
     SetFlag FLAG_VILLA_FURNITURE_WALL_CLOCK
     Return
 
 Villa_BuyFurniture_Masterpiece:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 140000
-    RemoveMoney 140000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 140
+    RemoveMoney 140
     SetFlag FLAG_VILLA_FURNITURE_MASTERPIECE
     Return
 
 Villa_BuyFurniture_TeaSet:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 108000
-    RemoveMoney 108000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 108
+    RemoveMoney 108
     SetFlag FLAG_VILLA_FURNITURE_TEA_SET
     Return
 
 Villa_BuyFurniture_Chandelier:
-    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120000
-    RemoveMoney 120000
+    AddToGameRecordBigValue RECORD_MONEY_SPENT, 120
+    RemoveMoney 120
     SetFlag FLAG_VILLA_FURNITURE_CHANDELIER
     Return
 
