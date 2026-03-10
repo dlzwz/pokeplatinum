@@ -2438,7 +2438,7 @@ static BOOL BtlCmd_CalcExpGain(BattleSystem *battleSys, BattleContext *battleCtx
         }
 
         u16 exp = SpeciesData_GetSpeciesValue(battleCtx->battleMons[battleCtx->faintedMon].species, SPECIES_DATA_BASE_EXP_REWARD);
-        exp = (exp * battleCtx->battleMons[battleCtx->faintedMon].level) / 7;
+        exp = (exp * battleCtx->battleMons[battleCtx->faintedMon].level) / 7 * 10;
 
         // Full EXP for participants
         battleCtx->gainedExp = exp / totalMonsGainingExp;
