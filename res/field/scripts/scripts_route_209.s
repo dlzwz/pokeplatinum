@@ -48,13 +48,7 @@ _00E6:
     End
 
 _0102:
-    GetSpiritombCounter VAR_RESULT
-    GoToIfGe VAR_RESULT, 32, _014D
-    GoToIfGe VAR_RESULT, 29, _01B1
-    GoToIfGe VAR_RESULT, 22, _01A6
-    GoToIfGe VAR_RESULT, 15, _019B
-    GoToIfGe VAR_RESULT, 8, _0190
-    GoTo _0185
+    GoTo _014D
 
 _014D:
     WaitFanfare SEQ_SE_CONFIRM
