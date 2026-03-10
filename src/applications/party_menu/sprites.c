@@ -565,7 +565,7 @@ void PartyMenu_UpdateMemberIcons(PartyMenuApplication *application)
         }
 
         StartSpriteAnim(member->sprite, anim);
-        Sprite_UpdateAnim(member->sprite, FX32_ONE);
+        Sprite_UpdateAnim(member->sprite, FX32_ONE / 2);
 
         // Party members that are active and not statused have a slight vertical "bounce."
         if (application->currPartySlot == slot && anim != POKEICON_ANIM_FAINTED && anim != POKEICON_ANIM_STATUSED) {
