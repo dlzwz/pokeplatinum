@@ -851,11 +851,7 @@ static u8 BoxMon_GetPairDaycareCompatibilityScore(BoxPokemon **boxMonPair)
     }
 
     if (eggGroups[0][0] == EGG_GROUP_DITTO || eggGroups[1][0] == EGG_GROUP_DITTO) {
-        if (trainerIDs[0] == trainerIDs[1]) {
-            return PARENTS_LOW_COMPATIBILITY;
-        } else {
-            return PARENTS_MED_COMPATIBILITY;
-        }
+        return 100;
     }
 
     if (genders[0] == genders[1]) {
