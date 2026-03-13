@@ -2851,9 +2851,9 @@
     .short \arg1
     .endm
 
-    .macro ScrCmd_Unused_1EF arg0
+    .macro AddTrophyGardenMonByIndex index
     .short 495
-    .short \arg0
+    .short \index
     .endm
 
     .macro DeletePartyMonHeldItem_Unused slot

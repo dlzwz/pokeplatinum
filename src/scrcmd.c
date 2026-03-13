@@ -577,7 +577,7 @@ static BOOL ScrCmd_ShowDiplomaSinnoh(ScriptContext *ctx);
 static BOOL ScrCmd_ShowDiplomaNationalDex(ScriptContext *ctx);
 static BOOL ScrCmd_AddTrophyGardenMon(ScriptContext *ctx);
 static BOOL ScrCmd_GetTrophyGardenSlot1Species(ScriptContext *ctx);
-static BOOL ScrCmd_Unused_1EF(ScriptContext *ctx);
+static BOOL ScrCmd_AddTrophyGardenMonByIndex(ScriptContext *ctx);
 static BOOL ScrCmd_IncrementGameRecord(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_1E6(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_1E7(ScriptContext *ctx);
@@ -1264,7 +1264,7 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_AddTrophyGardenMon,
     ScrCmd_GetTrophyGardenSlot1Species,
     ScrCmd_GetPartyMonHeldItem_Unused,
-    ScrCmd_Unused_1EF,
+    ScrCmd_AddTrophyGardenMonByIndex,
     ScrCmd_DeletePartyMonHeldItem_Unused,
     ScrCmd_GetFossilCount,
     ScrCmd_Dummy_1F2,
@@ -6052,9 +6052,11 @@ static BOOL ScrCmd_GetTrophyGardenSlot1Species(ScriptContext *ctx)
     return FALSE;
 }
 
-static BOOL ScrCmd_Unused_1EF(ScriptContext *ctx)
+static BOOL ScrCmd_AddTrophyGardenMonByIndex(ScriptContext *ctx)
 {
-    u16 *v0 = ScriptContext_GetVarPointer(ctx);
+    u16 index = ScriptContext_GetVar(ctx);
+
+    TrophyGarden_ShiftSlotsForNewMon(ctx->fieldSystem->saveData, index);
     return FALSE;
 }
 

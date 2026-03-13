@@ -67,7 +67,26 @@ _00D8:
     End
 
 _00FB:
-    AddTrophyGardenMon
+    Message 23
+    InitLocalTextListMenu 1, 1, 0, VAR_RESULT, FALSE
+    AddListMenuEntry 24, 15         // Azurill
+    AddListMenuEntry 25, 1          // Bonsly
+    AddListMenuEntry 26, 10         // Castform
+    AddListMenuEntry 27, 14         // Chansey
+    AddListMenuEntry 28, 5          // Clefairy
+    AddListMenuEntry 29, 4          // Cleffa
+    AddListMenuEntry 30, 9          // Ditto
+    AddListMenuEntry 31, 0          // Eevee
+    AddListMenuEntry 32, 2          // Happiny
+    AddListMenuEntry 33, 6          // Igglybuff
+    AddListMenuEntry 34, 8          // Jigglypuff
+    AddListMenuEntry 35, 13         // Marill
+    AddListMenuEntry 36, 3          // Meowth
+    AddListMenuEntry 37, 12         // Mime Jr.
+    AddListMenuEntry 38, 11         // Minun
+    AddListMenuEntry 39, 7          // Plusle
+    ShowListMenu
+    AddTrophyGardenMonByIndex VAR_RESULT
     GetTrophyGardenSlot1Species VAR_0x8000
     BufferSpeciesNameFromVar 0, VAR_0x8000, 0, 0
     Message 6

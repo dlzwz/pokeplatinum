@@ -67,16 +67,12 @@
     {
       "id": "pl_msg_00000492_00006",
       "en_US": [
-        "Backlot: Muhohoho... I bet you are!\n",
-        "I knew you would be!\r",
-        "But I don’t mind! I enjoy sharing\n",
-        "my stories with you!\r",
-        "So! This is what happened this morning\n",
-        "when I went into my trophy garden.\r",
-        "I noticed a cute-eyed {STRVAR_1 0, 0, 0},\n",
-        "which joyously ran over to me.\r",
-        "The {STRVAR_1 0, 0, 0} ran up and gave me\n",
-        "a smooch on my cheek...\r"
+        "Backlot: Ah, yes! Now it’s all\n",
+        "coming back to me!\r",
+        "A {STRVAR_1 0, 0, 0}! That’s the one!\r",
+        "The little {STRVAR_1 0, 0, 0} came\n",
+        "running right up to me!\r",
+        "Muhohohoho!"
       ]
     },
     {
@@ -209,6 +205,81 @@
     {
       "id": "pl_msg_00000492_00022",
       "en_US": "{STRVAR_1 3, 0, 0} put the book back."
+    },
+    {
+      "id": "pl_msg_00000492_00023",
+      "en_US": [
+        "Backlot: Er-hem!\r",
+        "I would love to tell you more, but...\r",
+        "I’m afraid the details escape me!\r",
+        "Tell you what. YOU pick which\n",
+        "Pokémon you’d like to see in my\f",
+        "trophy garden today!"
+      ]
+    },
+    {
+      "id": "pl_msg_00000492_00024",
+      "en_US": "Azurill"
+    },
+    {
+      "id": "pl_msg_00000492_00025",
+      "en_US": "Bonsly"
+    },
+    {
+      "id": "pl_msg_00000492_00026",
+      "en_US": "Castform"
+    },
+    {
+      "id": "pl_msg_00000492_00027",
+      "en_US": "Chansey"
+    },
+    {
+      "id": "pl_msg_00000492_00028",
+      "en_US": "Clefairy"
+    },
+    {
+      "id": "pl_msg_00000492_00029",
+      "en_US": "Cleffa"
+    },
+    {
+      "id": "pl_msg_00000492_00030",
+      "en_US": "Ditto"
+    },
+    {
+      "id": "pl_msg_00000492_00031",
+      "en_US": "Eevee"
+    },
+    {
+      "id": "pl_msg_00000492_00032",
+      "en_US": "Happiny"
+    },
+    {
+      "id": "pl_msg_00000492_00033",
+      "en_US": "Igglybuff"
+    },
+    {
+      "id": "pl_msg_00000492_00034",
+      "en_US": "Jigglypuff"
+    },
+    {
+      "id": "pl_msg_00000492_00035",
+      "en_US": "Marill"
+    },
+    {
+      "id": "pl_msg_00000492_00036",
+      "en_US": "Meowth"
+    },
+    {
+      "id": "pl_msg_00000492_00037",
+      "en_US": "Mime Jr."
+    },
+    {
+      "id": "pl_msg_00000492_00038",
+      "en_US": "Minun"
+    },
+    {
+      "id": "pl_msg_00000492_00039",
+      "en_US": "Plusle"
     }
   ]
 }
