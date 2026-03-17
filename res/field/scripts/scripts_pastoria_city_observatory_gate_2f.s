@@ -28,7 +28,44 @@ _003E:
     PlayFanfare SEQ_SE_DP_REGI
     WaitFanfare SEQ_SE_DP_REGI
     HideMoney
-    StartGreatMarshLookout
+    GoToIfSet FLAG_UNK_0x0AA6, _VIEW_ONLY
+    Message 6
+    GetNationalDexEnabled VAR_0x8000
+    GoToIfEq VAR_0x8000, 1, _NATDEX_LIST
+_PRENAT_LIST:
+    InitLocalTextListMenu 1, 1, 0, VAR_RESULT, FALSE
+    AddListMenuEntry 8,  0      // Carnivine
+    AddListMenuEntry 9,  1      // Skorupi
+    AddListMenuEntry 10, 2      // Croagunk
+    AddListMenuEntry 11, 3      // Quagsire
+    AddListMenuEntry 12, 4      // Yanma
+    AddListMenuEntry 13, 5      // Tropius
+    AddListMenuEntry 14, 6      // Tangela
+    GoTo _SHOW_LIST
+_NATDEX_LIST:
+    InitLocalTextListMenu 1, 1, 0, VAR_RESULT, FALSE
+    AddListMenuEntry 8,  0      // Carnivine
+    AddListMenuEntry 9,  1      // Skorupi
+    AddListMenuEntry 10, 2      // Croagunk
+    AddListMenuEntry 11, 3      // Quagsire
+    AddListMenuEntry 12, 4      // Yanma
+    AddListMenuEntry 13, 5      // Tropius
+    AddListMenuEntry 14, 6      // Tangela
+    AddListMenuEntry 15, 7      // Toxicroak
+    AddListMenuEntry 16, 8      // Kecleon
+    AddListMenuEntry 17, 9      // Drapion
+    AddListMenuEntry 18, 10     // Kangaskhan
+    AddListMenuEntry 19, 11     // Paras
+    AddListMenuEntry 20, 12     // Exeggcute
+    AddListMenuEntry 21, 13     // Shroomish
+    AddListMenuEntry 22, 14     // Gulpin
+_SHOW_LIST:
+    ShowListMenu
+    SetGreatMarshDailyMon VAR_RESULT
+    SetFlag FLAG_UNK_0x0AA6
+    Message 7
+    WaitABXPadPress
+    CloseMessage
     ReleaseAll
     End
 
@@ -37,6 +74,11 @@ _006B:
     WaitABXPadPress
     CloseMessage
     HideMoney
+    ReleaseAll
+    End
+
+_VIEW_ONLY:
+    StartGreatMarshLookout
     ReleaseAll
     End
 

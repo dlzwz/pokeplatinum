@@ -1,6 +1,7 @@
 #include "overlay006/great_marsh_daily_encounters.h"
 
 #include "constants/heap.h"
+#include "constants/species.h"
 #include "generated/map_headers.h"
 
 #include "heap.h"
@@ -10,6 +11,14 @@ static u8 GreatMarsh_GetAreaNumFromMapId(const int mapId);
 
 void ReplaceGreatMarshDailyEncounters(const int dailyMon, const BOOL nationalDexObtained, const int mapId, int *encounterSlot1, int *encounterSlot2)
 {
+    // Player-chosen species stored directly as a species ID
+    if (dailyMon > SPECIES_NONE && dailyMon <= SPECIES_ARCEUS) {
+        (*encounterSlot1) = dailyMon;
+        (*encounterSlot2) = dailyMon;
+        return;
+    }
+
+    // Vanilla save compatibility: fall back to original NARC-based bitfield logic
     int *narc;
     int encDataGroup;
     u8 encounterIndex;

@@ -52,5 +52,6 @@ void SpecialEncounter_SetFluteFactor(SpecialEncounter *speEnc, const u8 flute);
 u8 SpecialEncounter_GetFluteFactor(SpecialEncounter *speEnc);
 void SpecialEncounter_GetTrophyGardenMons(SaveData *saveData, u16 *slot1, u16 *slot2);
 void TrophyGarden_ShiftSlotsForNewMon(SaveData *saveData, const u16 newMon);
+void SpecialEncounter_SetMarshDailyMon(SpecialEncounter *speEnc, const u16 species);
 
 #endif // POKEPLATINUM_SPECIAL_ENCOUNTER_H

@@ -275,6 +275,11 @@ void SpecialEncounter_GetTrophyGardenMons(SaveData *saveData, u16 *slot1, u16 *s
     (*slot2) = speEnc->trophyGarden.slot2;
 }
 
+void SpecialEncounter_SetMarshDailyMon(SpecialEncounter *speEnc, const u16 species)
+{
+    speEnc->marshDaily = species;
+}
+
 // Assigns slot1 mon to slot2 and newMon to slot1
 void TrophyGarden_ShiftSlotsForNewMon(SaveData *saveData, const u16 newMon)
 {

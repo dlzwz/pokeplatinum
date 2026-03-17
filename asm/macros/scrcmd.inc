@@ -3718,6 +3718,11 @@
     .byte \version
     .endm
 
+    .macro SetGreatMarshDailyMon species
+    .short 842
+    .short \species
+    .endm
+
     .macro ClearSpiritombCounter
     .short 623
     .endm

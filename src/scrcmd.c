@@ -578,6 +578,7 @@ static BOOL ScrCmd_ShowDiplomaNationalDex(ScriptContext *ctx);
 static BOOL ScrCmd_AddTrophyGardenMon(ScriptContext *ctx);
 static BOOL ScrCmd_GetTrophyGardenSlot1Species(ScriptContext *ctx);
 static BOOL ScrCmd_AddTrophyGardenMonByIndex(ScriptContext *ctx);
+static BOOL ScrCmd_SetGreatMarshDailyMon(ScriptContext *ctx);
 static BOOL ScrCmd_IncrementGameRecord(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_1E6(ScriptContext *ctx);
 static BOOL ScrCmd_Unused_1E7(ScriptContext *ctx);
@@ -1611,6 +1612,7 @@ const ScrCmdFunc Unk_020EAC58[] = {
     ScrCmd_BufferFloorNumber,
     ScrCmd_StartSelfTrade,
     ScrCmd_SetGBACartridgeVersion,
+    ScrCmd_SetGreatMarshDailyMon,
 };
 
 const u32 Unk_020EAB80 = NELEMS(Unk_020EAC58);
@@ -6057,6 +6059,33 @@ static BOOL ScrCmd_AddTrophyGardenMonByIndex(ScriptContext *ctx)
     u16 index = ScriptContext_GetVar(ctx);
 
     TrophyGarden_ShiftSlotsForNewMon(ctx->fieldSystem->saveData, index);
+    return FALSE;
+}
+
+static BOOL ScrCmd_SetGreatMarshDailyMon(ScriptContext *ctx)
+{
+    static const u16 sGreatMarshSpecies[] = {
+        455, // Carnivine
+        451, // Skorupi
+        453, // Croagunk
+        195, // Quagsire
+        193, // Yanma
+        357, // Tropius
+        114, // Tangela
+        454, // Toxicroak
+        352, // Kecleon
+        452, // Drapion
+        115, // Kangaskhan
+         46, // Paras
+        102, // Exeggcute
+        285, // Shroomish
+        316, // Gulpin
+    };
+
+    u8 menuIndex = (u8)ScriptContext_GetVar(ctx);
+    u16 species = sGreatMarshSpecies[menuIndex];
+
+    SpecialEncounter_SetMarshDailyMon(SaveData_GetSpecialEncounters(ctx->fieldSystem->saveData), species);
     return FALSE;
 }
 

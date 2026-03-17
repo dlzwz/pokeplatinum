@@ -48,6 +48,82 @@
         "If you turn while you’re stuck,\n",
         "sometimes Pokémon may pop out."
       ]
+    },
+    {
+      "id": "pl_msg_00000137_00006",
+      "en_US": [
+        "You peer through the binoculars out\n",
+        "into the Great Marsh...\f",
+        "What Pokémon do you hope to find\n",
+        "in the marsh today?"
+      ]
+    },
+    {
+      "id": "pl_msg_00000137_00007",
+      "en_US": [
+        "What a sighting! That Pokémon can\n",
+        "be found in the marsh today."
+      ]
+    },
+    {
+      "id": "pl_msg_00000137_00008",
+      "en_US": "Carnivine"
+    },
+    {
+      "id": "pl_msg_00000137_00009",
+      "en_US": "Skorupi"
+    },
+    {
+      "id": "pl_msg_00000137_00010",
+      "en_US": "Croagunk"
+    },
+    {
+      "id": "pl_msg_00000137_00011",
+      "en_US": "Quagsire"
+    },
+    {
+      "id": "pl_msg_00000137_00012",
+      "en_US": "Yanma"
+    },
+    {
+      "id": "pl_msg_00000137_00013",
+      "en_US": "Tropius"
+    },
+    {
+      "id": "pl_msg_00000137_00014",
+      "en_US": "Tangela"
+    },
+    {
+      "id": "pl_msg_00000137_00015",
+      "en_US": "Toxicroak"
+    },
+    {
+      "id": "pl_msg_00000137_00016",
+      "en_US": "Kecleon"
+    },
+    {
+      "id": "pl_msg_00000137_00017",
+      "en_US": "Drapion"
+    },
+    {
+      "id": "pl_msg_00000137_00018",
+      "en_US": "Kangaskhan"
+    },
+    {
+      "id": "pl_msg_00000137_00019",
+      "en_US": "Paras"
+    },
+    {
+      "id": "pl_msg_00000137_00020",
+      "en_US": "Exeggcute"
+    },
+    {
+      "id": "pl_msg_00000137_00021",
+      "en_US": "Shroomish"
+    },
+    {
+      "id": "pl_msg_00000137_00022",
+      "en_US": "Gulpin"
     }
   ]
 }
